@@ -5,6 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project Documents", "Project Documents", "{83DF6A63-BC86-4C45-91B6-F5D5B75F9DD6}"
 	ProjectSection(SolutionItems) = preProject
+		BISolutionWorksheets.xlsx = BISolutionWorksheets.xlsx
 		LearnByDoing.docx = LearnByDoing.docx
 	EndProjectSection
 EndProject
