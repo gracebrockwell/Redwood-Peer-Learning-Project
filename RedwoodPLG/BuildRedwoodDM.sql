@@ -25,13 +25,6 @@ IF EXISTS(
 IF EXISTS(
 	SELECT *
 	FROM sys.tables
-	WHERE name= N'DimContactReason'
-	)
-	DROP TABLE DimContactReason;
---
-IF EXISTS(
-	SELECT *
-	FROM sys.tables
 	WHERE name= N'DimAgent'
 	)
 	DROP TABLE DimAgent;
