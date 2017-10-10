@@ -8,7 +8,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Documents", "Solut
 		BISolutionWorksheets.xlsx = BISolutionWorksheets.xlsx
 		Information Package.docx = Information Package.docx
 		Redwood Realty Case Study.docx = Redwood Realty Case Study.docx
+		StarSchema.vsdx = StarSchema.vsdx
 		Tables for Warehouse.png = Tables for Warehouse.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DM Build", "DM Build", "{7A00981B-78D4-4452-A2E7-B8C40636CC98}"
+	ProjectSection(SolutionItems) = preProject
+		BuildRedwoodDM.sql = BuildRedwoodDM.sql
 	EndProjectSection
 EndProject
 Global
