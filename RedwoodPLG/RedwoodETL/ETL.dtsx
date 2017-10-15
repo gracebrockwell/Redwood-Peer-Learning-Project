@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL"
   DTS:PackageType="5"
-  DTS:VersionBuild="4"
-  DTS:VersionGUID="{E7211F14-FDAD-440E-A13C-374B903955E5}">
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{34F0EABF-1CB1-4EC2-A70C-62D1CB826FBD}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -186,7 +186,9 @@
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
-            <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{A4BDC931-84E6-4F9C-93C8-B92D101CFFB0}"
+              SQLTask:SqlStatementSource="IF NOT EXISTS(SELECT * FROM sys.databases&#xA;&#x9;&#x9;&#x9;&#x9;WHERE name = N'RedwoodDM')&#xA;&#x9;CREATE DATABASE RedwoodDM&#xA;GO&#xA;USE RedwoodDM&#xA;--&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'FactContacts'&#xA;&#x9;)&#xA;&#x9;DROP TABLE FactContacts;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimProperty'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimProperty;&#xA;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimAgent'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimAgent;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimListing'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimListing;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimDate'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimDate;&#xA;--&#xA;CREATE TABLE DimDate&#xA;&#x9;(&#x9;Date_SK INT PRIMARY KEY, &#xA;&#x9;&#x9;Date DATETIME,&#xA;&#x9;&#x9;FullDate CHAR(10),-- Date in MM-dd-yyyy format&#xA;&#x9;&#x9;DayOfMonth INT, -- Field will hold day number of Month&#xA;&#x9;&#x9;DayName VARCHAR(9), -- Contains name of the day, Sunday, Monday &#xA;&#x9;&#x9;DayOfWeek INT,-- First Day Sunday=1 and Saturday=7&#xA;&#x9;&#x9;DayOfWeekInMonth INT, -- 1st Monday or 2nd Monday in Month&#xA;&#x9;&#x9;DayOfWeekInYear INT,&#xA;&#x9;&#x9;DayOfQuarter INT,&#xA;&#x9;&#x9;DayOfYear INT,&#xA;&#x9;&#x9;WeekOfMonth INT,-- Week Number of Month &#xA;&#x9;&#x9;WeekOfQuarter INT, -- Week Number of the Quarter&#xA;&#x9;&#x9;WeekOfYear INT,-- Week Number of the Year&#xA;&#x9;&#x9;Month INT, -- Number of the Month 1 to 12{}&#xA;&#x9;&#x9;MonthName VARCHAR(9),-- January, February etc&#xA;&#x9;&#x9;MonthOfQuarter INT,-- Month Number belongs to Quarter&#xA;&#x9;&#x9;Quarter CHAR(2),&#xA;&#x9;&#x9;QuarterName VARCHAR(9),-- First,Second..&#xA;&#x9;&#x9;Year INT,-- Year value of Date stored in Row&#xA;&#x9;&#x9;YearName CHAR(7), -- CY 2015,CY 2016&#xA;&#x9;&#x9;MonthYear CHAR(10), -- Jan-2016,Feb-2016&#xA;&#x9;&#x9;MMYYYY INT,&#xA;&#x9;&#x9;FirstDayOfMonth DATE,&#xA;&#x9;&#x9;LastDayOfMonth DATE,&#xA;&#x9;&#x9;FirstDayOfQuarter DATE,&#xA;&#x9;&#x9;LastDayOfQuarter DATE,&#xA;&#x9;&#x9;FirstDayOfYear DATE,&#xA;&#x9;&#x9;LastDayOfYear DATE,&#xA;&#x9;&#x9;IsHoliday BIT,-- Flag 1=National Holiday, 0-No National Holiday&#xA;&#x9;&#x9;IsWeekday BIT,-- 0=Week End ,1=Week Day&#xA;&#x9;&#x9;Holiday VARCHAR(50),--Name of Holiday in US&#xA;&#x9;&#x9;Season VARCHAR(10)--Name of Season&#xA;&#x9;);&#xA;--&#xA;CREATE TABLE DimListing&#xA;&#x9;(&#x9;Listing_SK INT IDENTITY(1,1) CONSTRAINT pk_SKListing PRIMARY KEY,&#xA;&#x9;&#x9;Listing_AK&#x9; INT,&#xA;&#x9;&#x9;BeginListDate  DATETIME,&#xA;&#x9;&#x9;EndListDate    DATETIME,&#xA;&#x9;&#x9;AskingPrice    MONEY&#xA;&#x9;);&#xA;--&#xA;CREATE TABLE DimAgent&#xA;&#x9;(   Agent_SK INT IDENTITY(1,1) CONSTRAINT pk_SKAgent PRIMARY KEY,&#xA;&#x9;&#x9;AgentID&#x9;INT,&#xA;&#x9;&#x9;FirstName&#x9;NVARCHAR(30) CONSTRAINT nn_agents_fname NOT NULL,&#xA;&#x9;&#x9;LastName&#x9;NVARCHAR(30) CONSTRAINT nn_agents_lname NOT NULL,&#xA;&#x9;&#x9;HireDate&#x9;DATETIME NOT NULL,&#xA;&#x9;&#x9;BirthDate&#x9;DATETIME NOT NULL,&#xA;&#x9;&#x9;Gender&#x9;&#x9;NCHAR(1),&#xA;&#x9;&#x9;LicenseDate   DATETIME&#xA;&#x9;);&#xA;--&#xA;CREATE TABLE DimProperty&#xA;&#x9;(   Property_SK INT IDENTITY (1,1) CONSTRAINT pk_SKProperty PRIMARY KEY,&#xA;&#x9;&#x9;Property_AK INT,&#xA;&#x9;&#x9;City&#x9;     NVARCHAR(30) NOT NULL,&#xA;&#x9;&#x9;State&#x9;     NVARCHAR(20) NOT NULL,&#xA;&#x9;&#x9;Zipcode     NVARCHAR(20) NOT NULL,&#xA;&#x9;&#x9;Bedrooms    INT,&#xA;&#x9;&#x9;Bathrooms   INT,&#xA;&#x9;&#x9;SqFt&#x9;     INT,&#xA;&#x9;&#x9;YearBuilt   NUMERIC(4)&#xA;&#x9;);&#xA;--&#xA;CREATE TABLE FactContacts&#xA;&#x9;(Agent_SK&#x9;INT CONSTRAINT FK_agentSK REFERENCES DimAgent(Agent_SK),&#xA;&#x9;Property_SK INT CONSTRAINT FK_propertySK REFERENCES DimProperty(Property_SK),&#xA;&#x9;Listing_SK&#x9;INT CONSTRAINT FK_ListingSK REFERENCES DimListing(Listing_SK),&#xA;&#x9;Contact_Date INT CONSTRAINT FK_ContDateSK REFERENCES DimDate(Date_SK),&#xA;&#x9;Contact_Reason NVARCHAR(15)&#xA;&#x9;CONSTRAINT pk_FactContact PRIMARY KEY (Agent_SK, Property_SK, Listing_SK, Contact_Date)&#xA;&#x9;);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -221,7 +223,11 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Load Dim Tables\Load DimAgent"
+          TopLeft="16.9230775438117,164.278802251773" />
         <NodeLayout
           Size="146.4,41.6"
           Id="Package\Load Dim Tables\Load DimDate"
@@ -230,10 +236,6 @@
           Size="158.4,41.6"
           Id="Package\Load Dim Tables\Load DimListings"
           TopLeft="123.076927591358,74.4606171889961" />
-        <NodeLayout
-          Size="150.4,41.6"
-          Id="Package\Load Dim Tables\Load DimAgent"
-          TopLeft="16.9230775438117,164.278802251773" />
         <NodeLayout
           Size="163.2,41.6"
           Id="Package\Load Dim Tables\Load DimProperty"
@@ -269,7 +271,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="9.8023633218858,20.206777488229,35.986484375,9.5537109375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -303,7 +307,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="-73.070167211273,29.1090925313883,35.986484375,9.5537109375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -337,7 +343,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="66.7452223417745,24.3818196333473,35.986484375,9.5537109375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <ContainerLayout
@@ -400,7 +408,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0.159138542681347,31.9882365982426,35.986484375,9.5537109375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -434,7 +444,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="6.1019968630344,1,35.986484375,9.5537109375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
