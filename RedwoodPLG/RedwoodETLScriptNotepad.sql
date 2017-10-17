@@ -231,7 +231,7 @@ BEGIN
 
 	/* Populate your dimension table with values*/
 	
-	INSERT INTO [dbo].[DimDate2]
+	INSERT INTO [dbo].[DimDate]
 	SELECT
 		
 		CONVERT (char(8),@CurrentDate,112) AS DateSK,
@@ -305,7 +305,7 @@ END
 --Update values of holiday as per USA Govt. Declaration for National Holiday
 
 	-- THANKSGIVING - Fourth THURSDAY in November
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Thanksgiving Day'
 	WHERE
 		[Month] = 11 
@@ -313,23 +313,23 @@ END
 		AND DayOfWeekInMonth = 4
 
 	-- CHRISTMAS
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Christmas Day'
 		
 	WHERE [Month] = 12 AND [DayOfMonth]  = 25
 
 	-- 4th of July
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Independance Day'
 	WHERE [Month] = 7 AND [DayOfMonth] = 4
 
 	-- New Years Day
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'New Year''s Day'
 	WHERE [Month] = 1 AND [DayOfMonth] = 1
 
 	-- Memorial Day - Last Monday in May
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Memorial Day'
 	FROM [dbo].[DimDate2]
 	WHERE DateSK IN 
@@ -346,14 +346,14 @@ END
 		)
 
 	-- Labor Day - First Monday in September
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Labor Day'
-	FROM [dbo].[DimDate2]
+	FROM [dbo].[DimDate]
 	WHERE DateSK IN 
 		(
 		SELECT
 			MIN(DateSK)
-		FROM [dbo].[DimDate2]
+		FROM [dbo].[DimDate]
 		WHERE
 			[MonthName] = 'September'
 			AND [DayName] = 'Monday'
@@ -363,21 +363,21 @@ END
 		)
 
 	-- Valentine's Day
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Valentine''s Day'
 	WHERE
 		[Month] = 2 
 		AND [DayOfMonth] = 14
 
 	-- Saint Patrick's Day
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Saint Patrick''s Day'
 	WHERE
 		[Month] = 3
 		AND [DayOfMonth] = 17
 
 	-- Martin Luthor King Day - Third Monday in January starting in 1983
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Martin Luthor King Jr Day'
 	WHERE
 		[Month] = 1
@@ -386,7 +386,7 @@ END
 		AND DayOfWeekInMonth = 3
 
 	-- President's Day - Third Monday in February
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'President''s Day'
 	WHERE
 		[Month] = 2
@@ -394,7 +394,7 @@ END
 		AND DayOfWeekInMonth = 3
 
 	-- Mother's Day - Second Sunday of May
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Mother''s Day'
 	WHERE
 		[Month] = 5
@@ -402,7 +402,7 @@ END
 		AND DayOfWeekInMonth = 2
 
 	-- Father's Day - Third Sunday of June
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Father''s Day'
 	WHERE
 		[Month] = 6
@@ -410,7 +410,7 @@ END
 		AND DayOfWeekInMonth = 3
 
 	-- Halloween 10/31*/
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Halloween'
 	WHERE
 		[Month] = 10
@@ -470,7 +470,7 @@ END
 			SELECT @CURRENTYEAR = @CURRENTYEAR + 1
 		END
 
-		UPDATE [dbo].[DimDate2]
+		UPDATE [dbo].[DimDate]
 			SET Holiday  = 'Election Day'				
 		FROM [dbo].[DimDate2] DT
 			JOIN @Holidays HL ON (HL.DateID + 1) = DT.DateSK
@@ -478,11 +478,8 @@ END
 			[Week] = 1
 	END
 	-- Set flag for USA holidays in Dimension
-	UPDATE [dbo].[DimDate2]
+	UPDATE [dbo].[DimDate]
 	SET IsHoliday = 
 		CASE	WHEN Holiday IS NULL THEN 0 
 			WHEN Holiday IS NOT NULL THEN 1 
 	END
-
-SELECT * FROM [dbo].[DimDate2]
-
