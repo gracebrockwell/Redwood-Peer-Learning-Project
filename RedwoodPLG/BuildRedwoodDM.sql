@@ -1,4 +1,4 @@
---Built by:
+--Built by: Grace Brockwell, Avery Cederstrand, Haley Miller
 --Build Redwood DM
 IF NOT EXISTS(SELECT * FROM sys.databases
 				WHERE name = N'RedwoodDM')
