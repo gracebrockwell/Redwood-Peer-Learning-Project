@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL"
   DTS:PackageType="5"
-  DTS:VersionBuild="18"
-  DTS:VersionGUID="{56199EF5-C9E4-498D-9F33-508296815EF3}">
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{F0C735EE-4B95-4167-B05A-0C07FD952594}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3103,7 +3103,358 @@ FROM Property</property>
           <DTS:Variables />
           <DTS:ObjectData>
             <pipeline
-              version="1" />
+              version="1">
+              <components>
+                <component
+                  refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[FactContacts]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.RedwoodDM]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.RedwoodDM]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Agent_SK]"
+                          cachedDataType="i4"
+                          cachedName="Agent_SK"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Agent_SK]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Agent_SK]" />
+                        <inputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Listing_SK]"
+                          cachedDataType="i4"
+                          cachedName="Listing_SK"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Listing_SK]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Listing_SK]" />
+                        <inputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Property_SK]"
+                          cachedDataType="i4"
+                          cachedName="Property_SK"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Property_SK]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Property_SK]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Agent_SK]"
+                          dataType="i4"
+                          name="Agent_SK" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Property_SK]"
+                          dataType="i4"
+                          name="Property_SK" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Listing_SK]"
+                          dataType="i4"
+                          name="Listing_SK" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact_Date]"
+                          dataType="i4"
+                          name="Contact_Date" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact_Reason]"
+                          dataType="wstr"
+                          length="15"
+                          name="Contact_Reason" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load Fact Table\Load FactContacts\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">--Script written by Grace Brockwell, Avery Cederstrand, Haley Miller
+--Load Redwood DM Fact Table
+
+SELECT Redwood.dbo.CustAgentList.ContactReason AS ContactReason, 
+		Redwood.dbo.CustAgentList.ContactDate AS ContactDate,
+		DimAgent.Agent_SK,
+		DimListing.Listing_SK,
+		DimProperty.Property_SK
+FROM Redwood.dbo.CustAgentList
+INNER JOIN DimAgent
+	ON DimAgent.AgentID = Redwood.dbo.CustAgentList.AgentID
+INNER JOIN DimListing
+	ON DimListing.Listing_AK = Redwood.dbo.CustAgentList.ListingID
+INNER JOIN Redwood.dbo.Listing 
+	ON Redwood.dbo.CustAgentList.ListingID = Redwood.dbo.Listing.ListingID
+INNER JOIN DimProperty
+	ON DimProperty.Property_AK = Redwood.dbo.Listing.PropertyID
+INNER JOIN DimDate
+	ON DimDate.Date = Redwood.dbo.CustAgentList.ContactDate</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.RedwoodDM]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.RedwoodDM]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactReason]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ContactReason]"
+                          length="15"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactReason]"
+                          name="ContactReason"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ContactDate]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactDate]"
+                          name="ContactDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Agent_SK]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Agent_SK]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Agent_SK]"
+                          name="Agent_SK"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Listing_SK]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Listing_SK]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Listing_SK]"
+                          name="Listing_SK"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Property_SK]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Property_SK]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Property_SK]"
+                          name="Property_SK"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ContactReason]"
+                          dataType="wstr"
+                          length="15"
+                          name="ContactReason" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ContactDate]"
+                          dataType="dbTimeStamp"
+                          name="ContactDate" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Agent_SK]"
+                          dataType="i4"
+                          name="Agent_SK" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Listing_SK]"
+                          dataType="i4"
+                          name="Listing_SK" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Property_SK]"
+                          dataType="i4"
+                          name="Property_SK" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ContactReason]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ContactReason]"
+                          name="ContactReason" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ContactDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ContactDate]"
+                          name="ContactDate" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Agent_SK]"
+                          dataType="i4"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Agent_SK]"
+                          name="Agent_SK" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Listing_SK]"
+                          dataType="i4"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Listing_SK]"
+                          name="Listing_SK" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Property_SK]"
+                          dataType="i4"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Property_SK]"
+                          name="Property_SK" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Load Fact Table\Load FactContacts.Paths[OLE DB Source Output]"
+                  endId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -3260,12 +3611,12 @@ FROM Property</property>
         <NodeLayout
           Size="164.8,41.6"
           Id="Package\Load Fact Table\Load FactContacts"
-          TopLeft="62.7428654047909,28.3294156513414" />
+          TopLeft="62.7428654047909,28.8546681955681" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
           PanelSize="290.4,134"
-          Size="290.4,176.8"
+          Size="290.4,177.2"
           Id="Package\Load Fact Table"
           TopLeft="447.780954294789,313.898041620882" />
         <NodeLayout
@@ -3303,7 +3654,7 @@ FROM Property</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="404.757142860387,401.745100575968">
+          TopLeft="404.757142860387,401.845100575968">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3860,6 +4211,56 @@ FROM Property</property>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <TaskHost
+    design-time-name="Package\Load Fact Table\Load FactContacts">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\Load Fact Table\Load FactContacts\OLE DB Source"
+          TopLeft="171.2,74" />
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Load Fact Table\Load FactContacts\OLE DB Destination"
+          TopLeft="143.2,153.6" />
+        <EdgeLayout
+          Id="Package\Load Fact Table\Load FactContacts.Paths[OLE DB Source Output]"
+          TopLeft="246,115.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-17.6,38"
+              Start="0,0"
+              End="-17.6,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15"
+                    Point2="0,19"
+                    Point3="-4,19" />
+                  <mssgle:LineSegment
+                    End="-13.6,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-13.6,19"
+                    Point2="-17.6,19"
+                    Point3="-17.6,23" />
+                  <mssgle:LineSegment
+                    End="-17.6,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
   <PipelineComponentMetadata
     design-time-name="Package\Load Dim Tables\Load DimListings\OLE DB Source">
     <Properties>
@@ -4085,6 +4486,27 @@ FROM Property</property>
   &lt;DateVariable /&gt;
   &lt;EnableInferredSupport&gt;false&lt;/EnableInferredSupport&gt;
 &lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Fact Table\Load FactContacts\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Fact Table\Load FactContacts\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
