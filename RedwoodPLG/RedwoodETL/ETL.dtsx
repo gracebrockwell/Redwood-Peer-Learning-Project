@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL"
   DTS:PackageType="5"
-  DTS:VersionBuild="6"
-  DTS:VersionGUID="{6F4F3C85-D59E-42FE-93BF-A761EE800898}">
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{352F93E1-4349-41EC-B77E-F542F2B737E1}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -61,7 +61,234 @@
           <DTS:Variables />
           <DTS:ObjectData>
             <pipeline
-              version="1" />
+              version="1">
+              <components>
+                <component
+                  refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT AgentID, FirstName, LastName, HireDate, BirthDate, Gender, LicenseDate
+FROM Agent</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Redwood]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Redwood]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgentID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgentID]"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgentID]"
+                          name="AgentID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                          length="30"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                          name="FirstName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                          length="30"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                          name="LastName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[HireDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HireDate]"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[HireDate]"
+                          name="HireDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[BirthDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BirthDate]"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[BirthDate]"
+                          name="BirthDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[Gender]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Gender]"
+                          length="1"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[Gender]"
+                          name="Gender"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[LicenseDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LicenseDate]"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].Columns[LicenseDate]"
+                          name="LicenseDate"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgentID]"
+                          dataType="i4"
+                          name="AgentID" />
+                        <externalMetadataColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                          dataType="wstr"
+                          length="30"
+                          name="FirstName" />
+                        <externalMetadataColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                          dataType="wstr"
+                          length="30"
+                          name="LastName" />
+                        <externalMetadataColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HireDate]"
+                          dataType="dbTimeStamp"
+                          name="HireDate" />
+                        <externalMetadataColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BirthDate]"
+                          dataType="dbTimeStamp"
+                          name="BirthDate" />
+                        <externalMetadataColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Gender]"
+                          dataType="wstr"
+                          length="1"
+                          name="Gender" />
+                        <externalMetadataColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LicenseDate]"
+                          dataType="dbTimeStamp"
+                          name="LicenseDate" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgentID]"
+                          dataType="i4"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgentID]"
+                          name="AgentID" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                          name="FirstName" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                          name="LastName" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HireDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HireDate]"
+                          name="HireDate" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BirthDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BirthDate]"
+                          name="BirthDate" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Gender]"
+                          dataType="wstr"
+                          length="1"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Gender]"
+                          name="Gender" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LicenseDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LicenseDate]"
+                          name="LicenseDate" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Dim Tables\Load DimAgent\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+            </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -221,21 +448,21 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="150.5,41.5"
+          Size="150.4,41.6"
           Id="Package\Load Dim Tables\Load DimAgent"
           TopLeft="100.923077543812,165.278802251773" />
         <NodeLayout
-          Size="146.5,41.5"
+          Size="146.4,41.6"
           Id="Package\Load Dim Tables\Load DimDate"
           TopLeft="102.985716572586,5.94706221253821" />
         <NodeLayout
-          Size="158.5,41.5"
+          Size="158.4,41.6"
           Id="Package\Load Dim Tables\Load DimListings"
           TopLeft="95.076927591358,75.4606171889961" />
         <NodeLayout
-          Size="163,41.5"
+          Size="163.2,41.6"
           Id="Package\Load Dim Tables\Load DimProperty"
           TopLeft="93.500006602361,242.142441518467" />
         <EdgeLayout
@@ -257,9 +484,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-17.9932421875,5.47992201947895,35.986484375,9.5537109375"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -281,9 +506,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-17.9932421875,15.6322370626384,35.986484375,9.5537109375"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -305,38 +528,36 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-17.9932421875,9.154964164597,35.986484375,9.5537109375"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="390.5,372"
-          Size="390.5,415"
+          PanelSize="390.4,372"
+          Size="390.4,415.2"
           Id="Package\Load Dim Tables"
           TopLeft="14.3571428603867,193.592159531053" />
         <NodeLayout
-          Size="165,41.5"
+          Size="164.8,41.6"
           Id="Package\Load Fact Table\Load FactContacts"
           TopLeft="62.7428654047909,28.3294156513414" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="290.5,134"
-          Size="290.5,177"
+          PanelSize="290.4,134"
+          Size="290.4,176.8"
           Id="Package\Load Fact Table"
           TopLeft="447.780954294789,313.898041620882" />
         <NodeLayout
-          Size="199,41.5"
+          Size="199.2,41.6"
           Id="Package\Prepare ETL\Build DM"
           TopLeft="31.2000038146974,21.0352957478032" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="265.5,89"
-          Size="265.5,132"
+          PanelSize="265.6,88.8"
+          Size="265.6,132"
           Id="Package\Prepare ETL"
           TopLeft="83.7857147333573,2.78235300123482" />
         <EdgeLayout
@@ -358,9 +579,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-17.9932421875,20.8780477961593,35.986484375,9.5537109375"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -382,13 +601,31 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-0.281336470298854,5,35.986484375,9.5537109375"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\Load Dim Tables\Load DimAgent">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\Load Dim Tables\Load DimAgent\OLE DB Source"
+          TopLeft="100.461542146446,20.0121219350397" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Dim Tables\Load DimAgent\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
