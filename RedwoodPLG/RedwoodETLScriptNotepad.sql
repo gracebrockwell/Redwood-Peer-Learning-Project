@@ -2,6 +2,8 @@
 --Grace Brockwell, Haley Miller, Avery Cederstrand
 
 --Build RedwoodDM
+--Built by: Grace Brockwell, Avery Cederstrand, Haley Miller
+--Build Redwood DM
 IF NOT EXISTS(SELECT * FROM sys.databases
 				WHERE name = N'RedwoodDM')
 	CREATE DATABASE RedwoodDM
@@ -85,7 +87,10 @@ CREATE TABLE DimListing
 		Listing_AK	 INT,
 		BeginListDate  DATETIME,
 		EndListDate    DATETIME,
-		AskingPrice    MONEY
+		AskingPrice    MONEY,
+		StartDate		DATETIME NULL,
+		EndDate		DATETIMe NULL 
+
 	);
 --
 CREATE TABLE DimAgent
@@ -96,7 +101,9 @@ CREATE TABLE DimAgent
 		HireDate	DATETIME NOT NULL,
 		BirthDate	DATETIME NOT NULL,
 		Gender		NCHAR(1),
-		LicenseDate   DATETIME
+		LicenseDate   DATETIME,
+		StartDate		DATETIME NULL,
+		EndDate		DATETIMe NULL 
 	);
 --
 CREATE TABLE DimProperty
@@ -108,40 +115,41 @@ CREATE TABLE DimProperty
 		Bedrooms    INT,
 		Bathrooms   INT,
 		SqFt	     INT,
-		YearBuilt   NUMERIC(4)
+		YearBuilt   NUMERIC(4),
+		StartDate		DATETIME NULL,
+		EndDate		DATETIMe NULL 
 	);
 --
 CREATE TABLE FactContacts
 	(Agent_SK	INT CONSTRAINT FK_agentSK REFERENCES DimAgent(Agent_SK),
 	Property_SK INT CONSTRAINT FK_propertySK REFERENCES DimProperty(Property_SK),
 	Listing_SK	INT CONSTRAINT FK_ListingSK REFERENCES DimListing(Listing_SK),
-	Contact_Date INT CONSTRAINT FK_ContDate_SK REFERENCES DimDate(Date_SK),
-	Contact_Reason NVARCHAR(15)
-	CONSTRAINT pk_FactContact PRIMARY KEY (Agent_SK, Property_SK, Listing_SK, Contact_Date)
+	Date_SK INT CONSTRAINT FK_ContDateSK REFERENCES DimDate(Date_SK),
+	ContactDATE DATETIME, 
+	Contact_Reason NVARCHAR(15),
+	CONSTRAINT pk_FactContact PRIMARY KEY (Agent_SK, Property_SK, Listing_SK, date_sk)
 	);
 	
 --Load DimAgent
 USE Redwood
 GO
 
-SELECT Agent.AgentID, Agent.FirstNAme, Agent.LastName, Agent.HireDate, Agent.BirthDate, Agent.Gender, Agent.LicenseDate
-FROM Agent;
+SELECT AgentID, FirstName, LastName, HireDate, BirthDate, Gender, LicenseDate
+FROM Agent
 --Load DimListing
 USE Redwood
 GO 
 
-SELECT Listing.ListingID, Listing.BeginListDate, Listing.EndListDate, Listing.AskingPrice 
+SELECT ListingID, BeginListDate, EndListDate, AskingPrice
 FROM Listing
-;
 
 --Load DimProperty
 USE Redwood
 GO
 SELECT PropertyID, City, State, Zipcode, Bedrooms, Bathrooms, SqFt, YearBuilt
-FROM Property;
+FROM Property
 -------------------------------------------------------------------------------------------------------------------------------------------------
 --Load DimDate
--- Load a Date Dimension (DimDate) adapted by Amy Phillips
 USE RedwoodDM
 
 -- Specify start date and end date here
@@ -483,3 +491,28 @@ END
 		CASE	WHEN Holiday IS NULL THEN 0 
 			WHEN Holiday IS NOT NULL THEN 1 
 	END
+
+	--Load Fact Contacts
+	--Script written by Grace Brockwell, Avery Cederstrand, Haley Miller
+--Load Redwood DM Fact Table
+
+SELECT 
+		DimAgent.Agent_SK,
+		DimListing.Listing_SK,
+		DimProperty.Property_SK,
+		DimDate.Date_SK,
+		Redwood.dbo.CustAgentList.ContactReason AS ContactReason, 
+		 Redwood.dbo.CustAgentList.ContactDate AS ContactDate
+FROM Redwood.dbo.CustAgentList
+INNER JOIN Redwood.dbo.ContactReason
+ON Redwood.dbo.ContactReason.ContactReason = Redwood.dbo.CustAgentList.ContactReason
+INNER JOIN DimAgent
+	ON DimAgent.AgentID = Redwood.dbo.CustAgentList.AgentID
+INNER JOIN DimListing
+	ON DimListing.Listing_AK = Redwood.dbo.CustAgentList.ListingID
+INNER JOIN Redwood.dbo.Listing 
+	ON Redwood.dbo.CustAgentList.ListingID = Redwood.dbo.Listing.ListingID
+INNER JOIN DimProperty
+	ON DimProperty.Property_AK = Redwood.dbo.Listing.PropertyID
+INNER JOIN DimDate
+	ON DimDate.[Date] = Redwood.dbo.CustAgentList.ContactDate
