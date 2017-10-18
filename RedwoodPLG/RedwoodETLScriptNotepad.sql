@@ -137,7 +137,7 @@ FROM Listing
 --Load DimProperty
 USE Redwood
 GO
-SELECT Property.PropertyID, Property.City, Property.State, Property.Zipcode, Property.Bedrooms, Property.Bathrooms, Property.SqFt, Property.YearBuilt
+SELECT PropertyID, City, State, Zipcode, Bedrooms, Bathrooms, SqFt, YearBuilt
 FROM Property;
 -------------------------------------------------------------------------------------------------------------------------------------------------
 --Load DimDate
