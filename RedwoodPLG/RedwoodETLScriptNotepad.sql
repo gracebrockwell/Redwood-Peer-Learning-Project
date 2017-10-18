@@ -331,12 +331,12 @@ END
 	-- Memorial Day - Last Monday in May
 	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Memorial Day'
-	FROM [dbo].[DimDate2]
+	FROM [dbo].[DimDate]
 	WHERE DateSK IN 
 		(
 		SELECT
 			MAX(DateSK)
-		FROM [dbo].[DimDate2]
+		FROM [dbo].[DimDate]
 		WHERE
 			[MonthName] = 'May'
 			AND [DayName]  = 'Monday'
@@ -426,7 +426,7 @@ END
 			DateSK,
 			[Year],
 			[DayOfMonth] 
-		FROM [dbo].[DimDate2]
+		FROM [dbo].[DimDate]
 		WHERE
 			[Month] = 11
 			AND [DayName] = 'Monday'
@@ -472,7 +472,7 @@ END
 
 		UPDATE [dbo].[DimDate]
 			SET Holiday  = 'Election Day'				
-		FROM [dbo].[DimDate2] DT
+		FROM [dbo].[DimDate] DT
 			JOIN @Holidays HL ON (HL.DateID + 1) = DT.DateSK
 		WHERE
 			[Week] = 1
