@@ -115,7 +115,7 @@ CREATE TABLE FactContacts
 	(Agent_SK	INT CONSTRAINT FK_agentSK REFERENCES DimAgent(Agent_SK),
 	Property_SK INT CONSTRAINT FK_propertySK REFERENCES DimProperty(Property_SK),
 	Listing_SK	INT CONSTRAINT FK_ListingSK REFERENCES DimListing(Listing_SK),
-	Contact_Date INT CONSTRAINT FK_ContDateSK REFERENCES DimDate(Date_SK),
+	Contact_Date INT CONSTRAINT FK_ContDate_SK REFERENCES DimDate(Date_SK),
 	Contact_Reason NVARCHAR(15)
 	CONSTRAINT pk_FactContact PRIMARY KEY (Agent_SK, Property_SK, Listing_SK, Contact_Date)
 	);
@@ -142,7 +142,7 @@ FROM Property;
 -------------------------------------------------------------------------------------------------------------------------------------------------
 --Load DimDate
 -- Load a Date Dimension (DimDate) adapted by Amy Phillips
-USE AdventureWorksDW2014
+USE RedwoodDM
 
 -- Specify start date and end date here
 -- Value of start date must be less than your end date 
@@ -234,7 +234,7 @@ BEGIN
 	INSERT INTO [dbo].[DimDate]
 	SELECT
 		
-		CONVERT (char(8),@CurrentDate,112) AS DateSK,
+		CONVERT (char(8),@CurrentDate,112) AS Date_SK,
 		@CurrentDate AS Date,
 		CONVERT (char(10),@CurrentDate,101) AS FullDate,
 		DATEPART(DD, @CurrentDate) AS DayOfMonth,
@@ -332,10 +332,10 @@ END
 	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Memorial Day'
 	FROM [dbo].[DimDate]
-	WHERE DateSK IN 
+	WHERE Date_SK IN 
 		(
 		SELECT
-			MAX(DateSK)
+			MAX(Date_SK)
 		FROM [dbo].[DimDate]
 		WHERE
 			[MonthName] = 'May'
@@ -349,10 +349,10 @@ END
 	UPDATE [dbo].[DimDate]
 		SET Holiday = 'Labor Day'
 	FROM [dbo].[DimDate]
-	WHERE DateSK IN 
+	WHERE Date_SK IN 
 		(
 		SELECT
-			MIN(DateSK)
+			MIN(Date_SK)
 		FROM [dbo].[DimDate]
 		WHERE
 			[MonthName] = 'September'
@@ -423,7 +423,7 @@ END
 
 		INSERT INTO @Holidays(DateID, [Year],[Day])
 		SELECT
-			DateSK,
+			Date_SK,
 			[Year],
 			[DayOfMonth] 
 		FROM [dbo].[DimDate]
@@ -473,7 +473,7 @@ END
 		UPDATE [dbo].[DimDate]
 			SET Holiday  = 'Election Day'				
 		FROM [dbo].[DimDate] DT
-			JOIN @Holidays HL ON (HL.DateID + 1) = DT.DateSK
+			JOIN @Holidays HL ON (HL.DateID + 1) = DT.Date_SK
 		WHERE
 			[Week] = 1
 	END

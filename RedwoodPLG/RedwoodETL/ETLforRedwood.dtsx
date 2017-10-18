@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETLforRedwood"
   DTS:PackageType="5"
-  DTS:VersionBuild="32"
-  DTS:VersionGUID="{9226AC0A-8C17-428B-9A7E-8F25202B923A}">
+  DTS:VersionBuild="45"
+  DTS:VersionGUID="{EE5E7B44-456A-40DE-A88E-0025A6B334B6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -1310,7 +1310,7 @@ FROM Agent</property>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{34337B46-3E33-4DF6-803B-9A0CD705F1D3}"
-              SQLTask:SqlStatementSource="-- Load a Date Dimension (DimDate) adapted by Amy Phillips&#xA;USE RedwoodDM&#xA;&#xA;-- Specify start date and end date here&#xA;-- Value of start date must be less than your end date &#xA;&#xA;DECLARE @StartDate DATETIME = '01/01/2010' -- Starting value of date range&#xA;DECLARE @EndDate DATETIME = '10/17/2017' -- End Value of date range&#xA;&#xA;-- Temporary variables to hold the values during processing of each date of year&#xA;DECLARE&#xA;&#x9;@DayOfWeekInMonth INT,&#xA;&#x9;@DayOfWeekInYear INT,&#xA;&#x9;@DayOfQuarter INT,&#xA;&#x9;@WeekOfMonth INT,&#xA;&#x9;@CurrentYear INT,&#xA;&#x9;@CurrentMonth INT,&#xA;&#x9;@CurrentQuarter INT&#xA;&#xA;-- Table data type to store the day of week count for the month and year&#xA;DECLARE @DayOfWeek TABLE (DOW INT, MonthCount INT, QuarterCount INT, YearCount INT)&#xA;&#xA;INSERT INTO @DayOfWeek VALUES (1, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (2, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (3, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (4, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (5, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (6, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (7, 0, 0, 0)&#xA;&#xA;-- Extract and assign various parts of values from current date to variable&#xA;&#xA;DECLARE @CurrentDate AS DATETIME = @StartDate&#xA;SET @CurrentMonth = DATEPART(MM, @CurrentDate)&#xA;SET @CurrentYear = DATEPART(YY, @CurrentDate)&#xA;SET @CurrentQuarter = DATEPART(QQ, @CurrentDate)&#xA;&#xA;-- Proceed only if start date(current date ) is less than end date you specified above&#xA;&#xA;WHILE @CurrentDate &lt; @EndDate&#xA;BEGIN&#xA; &#xA;-- Begin day of week logic&#xA;&#xA;&#x9;/*Check for change in month of the current date if month changed then change variable value*/&#xA;&#x9;IF @CurrentMonth &lt;&gt; DATEPART(MM, @CurrentDate) &#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE @DayOfWeek&#xA;&#x9;&#x9;SET MonthCount = 0&#xA;&#x9;&#x9;SET @CurrentMonth = DATEPART(MM, @CurrentDate)&#xA;&#x9;END&#xA;&#xA;&#x9;/* Check for change in quarter of the current date if quarter changed then change variable value*/&#xA;&#xA;&#x9;IF @CurrentQuarter &lt;&gt; DATEPART(QQ, @CurrentDate)&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE @DayOfWeek&#xA;&#x9;&#x9;SET QuarterCount = 0&#xA;&#x9;&#x9;SET @CurrentQuarter = DATEPART(QQ, @CurrentDate)&#xA;&#x9;END&#xA;       &#xA;&#x9;/* Check for Change in Year of the Current date if Year changed then change variable value*/&#xA;&#x9;&#xA;&#x9;IF @CurrentYear &lt;&gt; DATEPART(YY, @CurrentDate)&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE @DayOfWeek&#xA;&#x9;&#x9;SET YearCount = 0&#xA;&#x9;&#x9;SET @CurrentYear = DATEPART(YY, @CurrentDate)&#xA;&#x9;END&#xA;&#x9;&#xA;-- Set values in table data type created above from variables &#xA;&#xA;&#x9;UPDATE @DayOfWeek&#xA;&#x9;SET &#xA;&#x9;&#x9;MonthCount = MonthCount + 1,&#xA;&#x9;&#x9;QuarterCount = QuarterCount + 1,&#xA;&#x9;&#x9;YearCount = YearCount + 1&#xA;&#x9;WHERE DOW = DATEPART(DW, @CurrentDate)&#xA;&#xA;&#x9;SELECT&#xA;&#x9;&#x9;@DayOfWeekInMonth = MonthCount,&#xA;&#x9;&#x9;@DayOfQuarter = QuarterCount,&#xA;&#x9;&#x9;@DayOfWeekInYear = YearCount&#xA;&#x9;FROM @DayOfWeek&#xA;&#x9;WHERE DOW = DATEPART(DW, @CurrentDate)&#xA;&#x9;&#xA;-- End day of week logic&#xA;&#xA;&#x9;/* Populate your dimension table with values*/&#xA;&#x9;&#xA;&#x9;INSERT INTO [dbo].[DimDate]&#xA;&#x9;SELECT&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;CONVERT (char(8),@CurrentDate,112) AS Date_SK,&#xA;&#x9;&#x9;@CurrentDate AS Date,&#xA;&#x9;&#x9;CONVERT (char(10),@CurrentDate,101) AS FullDate,&#xA;&#x9;&#x9;DATEPART(DD, @CurrentDate) AS DayOfMonth,&#xA;&#x9;&#x9;DATENAME(DW, @CurrentDate) AS DayName,&#xA;&#x9;&#x9;DATEPART(DW, @CurrentDate) AS DayOfWeek,&#xA;&#x9;&#x9;@DayOfWeekInMonth AS DayOfWeekInMonth,&#xA;&#x9;&#x9;@DayOfWeekInYear AS DayOfWeekInYear,&#xA;&#x9;&#x9;@DayOfQuarter AS DayOfQuarter,&#xA;&#x9;&#x9;DATEPART(DY, @CurrentDate) AS DayOfYear,&#xA;&#x9;&#x9;DATEPART(WW, @CurrentDate) + 1 - DATEPART(WW, CONVERT(VARCHAR, &#xA;&#x9;&#x9;DATEPART(MM, @CurrentDate)) + '/1/' + CONVERT(VARCHAR, &#xA;&#x9;&#x9;DATEPART(YY, @CurrentDate))) AS WeekOfMonth,&#xA;&#x9;&#x9;(DATEDIFF(DD, DATEADD(QQ, DATEDIFF(QQ, 0, @CurrentDate), 0), &#xA;&#x9;&#x9;@CurrentDate) / 7) + 1 AS WeekOfQuarter,&#xA;&#x9;&#x9;DATEPART(WW, @CurrentDate) AS WeekOfYear,&#xA;&#x9;&#x9;DATEPART(MM, @CurrentDate) AS Month,&#xA;&#x9;&#x9;DATENAME(MM, @CurrentDate) AS MonthName,&#xA;&#x9;&#x9;CASE&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (1, 4, 7, 10) THEN 1&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (2, 5, 8, 11) THEN 2&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (3, 6, 9, 12) THEN 3&#xA;&#x9;&#x9;&#x9;END AS MonthOfQuarter,&#xA;&#x9;&#x9;'Q' + CONVERT(VARCHAR, DATEPART(QQ, @CurrentDate)) AS Quarter,&#xA;&#x9;&#x9;CASE DATEPART(QQ, @CurrentDate)&#xA;&#x9;&#x9;&#x9;WHEN 1 THEN 'First'&#xA;&#x9;&#x9;&#x9;WHEN 2 THEN 'Second'&#xA;&#x9;&#x9;&#x9;WHEN 3 THEN 'Third'&#xA;&#x9;&#x9;&#x9;WHEN 4 THEN 'Fourth'&#xA;&#x9;&#x9;&#x9;END AS QuarterName,&#xA;&#x9;&#x9;DATEPART(YEAR, @CurrentDate) AS Year,&#xA;&#x9;&#x9;'CY ' + CONVERT(VARCHAR, DATEPART(YEAR, @CurrentDate)) AS YearName,&#xA;&#x9;&#x9;LEFT(DATENAME(MM, @CurrentDate), 3) + '-' + CONVERT(VARCHAR, &#xA;&#x9;&#x9;DATEPART(YY, @CurrentDate)) AS MonthYear,&#xA;&#x9;&#x9;RIGHT('0' + CONVERT(VARCHAR, DATEPART(MM, @CurrentDate)),2) + &#xA;&#x9;&#x9;CONVERT(VARCHAR, DATEPART(YY, @CurrentDate)) AS MMYYYY,&#xA;&#x9;&#x9;CONVERT(DATETIME, CONVERT(DATE, DATEADD(DD, - (DATEPART(DD, &#xA;&#x9;&#x9;@CurrentDate) - 1), @CurrentDate))) AS FirstDayOfMonth,&#xA;&#x9;&#x9;CONVERT(DATETIME, CONVERT(DATE, DATEADD(DD, - (DATEPART(DD, &#xA;&#x9;&#x9;(DATEADD(MM, 1, @CurrentDate)))), DATEADD(MM, 1, &#xA;&#x9;&#x9;@CurrentDate)))) AS LastDayOfMonth,&#xA;&#x9;&#x9;DATEADD(QQ, DATEDIFF(QQ, 0, @CurrentDate), 0) AS FirstDayOfQuarter,&#xA;&#x9;&#x9;DATEADD(QQ, DATEDIFF(QQ, -1, @CurrentDate), -1) AS LastDayOfQuarter,&#xA;&#x9;&#x9;CONVERT(DATETIME, '01/01/' + CONVERT(VARCHAR, DATEPART(YY, &#xA;&#x9;&#x9;@CurrentDate))) AS FirstDayOfYear,&#xA;&#x9;&#x9;CONVERT(DATETIME, '12/31/' + CONVERT(VARCHAR, DATEPART(YY, &#xA;&#x9;&#x9;@CurrentDate))) AS LastDayOfYear,&#xA;&#x9;&#x9;NULL AS IsHoliday,&#xA;&#x9;&#x9;CASE DATEPART(DW, @CurrentDate)&#xA;&#x9;&#x9;&#x9;WHEN 1 THEN 0&#xA;&#x9;&#x9;&#x9;WHEN 2 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 3 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 4 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 5 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 6 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 7 THEN 0&#xA;&#x9;&#x9;&#x9;END AS IsWeekday,&#xA;&#x9;&#x9;NULL AS Holiday,&#xA;&#x9;&#x9; CASE&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (12,1,2) THEN 'Winter'&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (3,4,5) THEN 'Spring'&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (6,7,8) THEN 'Summer'&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (9,10,11) THEN 'Fall'&#xA;&#x9;&#x9;&#x9;END AS Season&#xA;&#xA;&#x9;SET @CurrentDate = DATEADD(DD, 1, @CurrentDate)&#xA;END&#xA;&#xA;--Update values of holiday as per USA Govt. Declaration for National Holiday&#xA;&#xA;&#x9;-- THANKSGIVING - Fourth THURSDAY in November&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Thanksgiving Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 11 &#xA;&#x9;&#x9;AND [DayName] = 'Thursday' &#xA;&#x9;&#x9;AND DayOfWeekInMonth = 4&#xA;&#xA;&#x9;-- CHRISTMAS&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Christmas Day'&#xA;&#x9;&#x9;&#xA;&#x9;WHERE [Month] = 12 AND [DayOfMonth]  = 25&#xA;&#xA;&#x9;-- 4th of July&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Independance Day'&#xA;&#x9;WHERE [Month] = 7 AND [DayOfMonth] = 4&#xA;&#xA;&#x9;-- New Years Day&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'New Year''s Day'&#xA;&#x9;WHERE [Month] = 1 AND [DayOfMonth] = 1&#xA;&#xA;&#x9;-- Memorial Day - Last Monday in May&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Memorial Day'&#xA;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;WHERE Date_SK IN &#xA;&#x9;&#x9;(&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;MAX(Date_SK)&#xA;&#x9;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;[MonthName] = 'May'&#xA;&#x9;&#x9;&#x9;AND [DayName]  = 'Monday'&#xA;&#x9;&#x9;GROUP BY&#xA;&#x9;&#x9;&#x9;[Year],&#xA;&#x9;&#x9;&#x9;[Month]&#xA;&#x9;&#x9;)&#xA;&#xA;&#x9;-- Labor Day - First Monday in September&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Labor Day'&#xA;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;WHERE Date_SK IN &#xA;&#x9;&#x9;(&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;MIN(Date_SK)&#xA;&#x9;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;[MonthName] = 'September'&#xA;&#x9;&#x9;&#x9;AND [DayName] = 'Monday'&#xA;&#x9;&#x9;GROUP BY&#xA;&#x9;&#x9;&#x9;[Year],&#xA;&#x9;&#x9;&#x9;[Month]&#xA;&#x9;&#x9;)&#xA;&#xA;&#x9;-- Valentine's Day&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Valentine''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 2 &#xA;&#x9;&#x9;AND [DayOfMonth] = 14&#xA;&#xA;&#x9;-- Saint Patrick's Day&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Saint Patrick''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 3&#xA;&#x9;&#x9;AND [DayOfMonth] = 17&#xA;&#xA;&#x9;-- Martin Luthor King Day - Third Monday in January starting in 1983&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Martin Luthor King Jr Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 1&#xA;&#x9;&#x9;AND [DayName]  = 'Monday'&#xA;&#x9;&#x9;AND [Year] &gt;= 1983&#xA;&#x9;&#x9;AND DayOfWeekInMonth = 3&#xA;&#xA;&#x9;-- President's Day - Third Monday in February&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'President''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 2&#xA;&#x9;&#x9;AND [DayName] = 'Monday'&#xA;&#x9;&#x9;AND DayOfWeekInMonth = 3&#xA;&#xA;&#x9;-- Mother's Day - Second Sunday of May&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Mother''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 5&#xA;&#x9;&#x9;AND [DayName] = 'Sunday'&#xA;&#x9;&#x9;AND DayOfWeekInMonth = 2&#xA;&#xA;&#x9;-- Father's Day - Third Sunday of June&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Father''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 6&#xA;&#x9;&#x9;AND [DayName] = 'Sunday'&#xA;&#x9;&#x9;AND DayOfWeekInMonth = 3&#xA;&#xA;&#x9;-- Halloween 10/31*/&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Halloween'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 10&#xA;&#x9;&#x9;AND [DayOfMonth] = 31&#xA;&#xA;&#x9;-- Election Day - The first Tuesday after the first Monday in November&#xA;&#x9;BEGIN&#xA;&#x9;DECLARE @Holidays TABLE (ID INT IDENTITY(1,1), &#xA;&#x9;DateID int, Week TINYINT, YEAR CHAR(4), DAY CHAR(2))&#xA;&#xA;&#x9;&#x9;INSERT INTO @Holidays(DateID, [Year],[Day])&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;Date_SK,&#xA;&#x9;&#x9;&#x9;[Year],&#xA;&#x9;&#x9;&#x9;[DayOfMonth] &#xA;&#x9;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;[Month] = 11&#xA;&#x9;&#x9;&#x9;AND [DayName] = 'Monday'&#xA;&#x9;&#x9;ORDER BY&#xA;&#x9;&#x9;&#x9;YEAR,&#xA;&#x9;&#x9;&#x9;DayOfMonth &#xA;&#xA;&#x9;&#x9;DECLARE @CNTR INT, @POS INT, @STARTYEAR INT, @ENDYEAR INT, @MINDAY INT&#xA;&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;@CURRENTYEAR = MIN([Year]),&#xA;&#x9;&#x9;&#x9;@STARTYEAR = MIN([Year]),&#xA;&#x9;&#x9;&#x9;@ENDYEAR = MAX([Year])&#xA;&#x9;&#x9;FROM @Holidays&#xA;&#xA;&#x9;&#x9;WHILE @CURRENTYEAR &lt;= @ENDYEAR&#xA;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;SELECT @CNTR = COUNT([Year])&#xA;&#x9;&#x9;&#x9;FROM @Holidays&#xA;&#x9;&#x9;&#x9;WHERE [Year] = @CURRENTYEAR&#xA;&#xA;&#x9;&#x9;&#x9;SET @POS = 1&#xA;&#xA;&#x9;&#x9;&#x9;WHILE @POS &lt;= @CNTR&#xA;&#x9;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;&#x9;SELECT @MINDAY = MIN(DAY)&#xA;&#x9;&#x9;&#x9;&#x9;FROM @Holidays&#xA;&#x9;&#x9;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;[Year] = @CURRENTYEAR&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;AND [Week] IS NULL&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;UPDATE @Holidays&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;SET [Week] = @POS&#xA;&#x9;&#x9;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;[Year] = @CURRENTYEAR&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;AND [Day] = @MINDAY&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;SELECT @POS = @POS + 1&#xA;&#x9;&#x9;&#x9;END&#xA;&#xA;&#x9;&#x9;&#x9;SELECT @CURRENTYEAR = @CURRENTYEAR + 1&#xA;&#x9;&#x9;END&#xA;&#xA;&#x9;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;&#x9;SET Holiday  = 'Election Day'&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;FROM [dbo].[DimDate] DT&#xA;&#x9;&#x9;&#x9;JOIN @Holidays HL ON (HL.DateID + 1) = DT.Date_SK&#xA;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;[Week] = 1&#xA;&#x9;END&#xA;&#x9;-- Set flag for USA holidays in Dimension&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;SET IsHoliday = &#xA;&#x9;&#x9;CASE&#x9;WHEN Holiday IS NULL THEN 0 &#xA;&#x9;&#x9;&#x9;WHEN Holiday IS NOT NULL THEN 1 &#xA;&#x9;END&#xA;&#xA;/*****************************************************************************************/&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="USE RedwoodDM&#xA;&#xA;-- Specify start date and end date here&#xA;-- Value of start date must be less than your end date &#xA;&#xA;DECLARE @StartDate DATETIME = '01/01/2010' -- Starting value of date range&#xA;DECLARE @EndDate DATETIME = '9/19/2017' -- End Value of date range&#xA;&#xA;-- Temporary variables to hold the values during processing of each date of year&#xA;DECLARE&#xA;&#x9;@DayOfWeekInMonth INT,&#xA;&#x9;@DayOfWeekInYear INT,&#xA;&#x9;@DayOfQuarter INT,&#xA;&#x9;@WeekOfMonth INT,&#xA;&#x9;@CurrentYear INT,&#xA;&#x9;@CurrentMonth INT,&#xA;&#x9;@CurrentQuarter INT&#xA;&#xA;-- Table data type to store the day of week count for the month and year&#xA;DECLARE @DayOfWeek TABLE (DOW INT, MonthCount INT, QuarterCount INT, YearCount INT)&#xA;&#xA;INSERT INTO @DayOfWeek VALUES (1, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (2, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (3, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (4, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (5, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (6, 0, 0, 0)&#xA;INSERT INTO @DayOfWeek VALUES (7, 0, 0, 0)&#xA;&#xA;-- Extract and assign various parts of values from current date to variable&#xA;&#xA;DECLARE @CurrentDate AS DATETIME = @StartDate&#xA;SET @CurrentMonth = DATEPART(MM, @CurrentDate)&#xA;SET @CurrentYear = DATEPART(YY, @CurrentDate)&#xA;SET @CurrentQuarter = DATEPART(QQ, @CurrentDate)&#xA;&#xA;-- Proceed only if start date(current date ) is less than end date you specified above&#xA;&#xA;WHILE @CurrentDate &lt; @EndDate&#xA;BEGIN&#xA; &#xA;-- Begin day of week logic&#xA;&#xA;&#x9;/*Check for change in month of the current date if month changed then change variable value*/&#xA;&#x9;IF @CurrentMonth &lt;&gt; DATEPART(MM, @CurrentDate) &#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE @DayOfWeek&#xA;&#x9;&#x9;SET MonthCount = 0&#xA;&#x9;&#x9;SET @CurrentMonth = DATEPART(MM, @CurrentDate)&#xA;&#x9;END&#xA;&#xA;&#x9;/* Check for change in quarter of the current date if quarter changed then change variable value*/&#xA;&#xA;&#x9;IF @CurrentQuarter &lt;&gt; DATEPART(QQ, @CurrentDate)&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE @DayOfWeek&#xA;&#x9;&#x9;SET QuarterCount = 0&#xA;&#x9;&#x9;SET @CurrentQuarter = DATEPART(QQ, @CurrentDate)&#xA;&#x9;END&#xA;       &#xA;&#x9;/* Check for Change in Year of the Current date if Year changed then change variable value*/&#xA;&#x9;&#xA;&#x9;IF @CurrentYear &lt;&gt; DATEPART(YY, @CurrentDate)&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE @DayOfWeek&#xA;&#x9;&#x9;SET YearCount = 0&#xA;&#x9;&#x9;SET @CurrentYear = DATEPART(YY, @CurrentDate)&#xA;&#x9;END&#xA;&#x9;&#xA;-- Set values in table data type created above from variables &#xA;&#xA;&#x9;UPDATE @DayOfWeek&#xA;&#x9;SET &#xA;&#x9;&#x9;MonthCount = MonthCount + 1,&#xA;&#x9;&#x9;QuarterCount = QuarterCount + 1,&#xA;&#x9;&#x9;YearCount = YearCount + 1&#xA;&#x9;WHERE DOW = DATEPART(DW, @CurrentDate)&#xA;&#xA;&#x9;SELECT&#xA;&#x9;&#x9;@DayOfWeekInMonth = MonthCount,&#xA;&#x9;&#x9;@DayOfQuarter = QuarterCount,&#xA;&#x9;&#x9;@DayOfWeekInYear = YearCount&#xA;&#x9;FROM @DayOfWeek&#xA;&#x9;WHERE DOW = DATEPART(DW, @CurrentDate)&#xA;&#x9;&#xA;-- End day of week logic&#xA;&#xA;&#x9;/* Populate your dimension table with values*/&#xA;&#x9;&#xA;&#x9;INSERT INTO [dbo].[DimDate]&#xA;&#x9;SELECT&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;CONVERT (char(8),@CurrentDate,112) AS Date_SK,&#xA;&#x9;&#x9;@CurrentDate AS Date,&#xA;&#x9;&#x9;CONVERT (char(10),@CurrentDate,101) AS FullDate,&#xA;&#x9;&#x9;DATEPART(DD, @CurrentDate) AS DayOfMonth,&#xA;&#x9;&#x9;DATENAME(DW, @CurrentDate) AS DayName,&#xA;&#x9;&#x9;DATEPART(DW, @CurrentDate) AS DayOfWeek,&#xA;&#x9;&#x9;@DayOfWeekInMonth AS DayOfWeekInMonth,&#xA;&#x9;&#x9;@DayOfWeekInYear AS DayOfWeekInYear,&#xA;&#x9;&#x9;@DayOfQuarter AS DayOfQuarter,&#xA;&#x9;&#x9;DATEPART(DY, @CurrentDate) AS DayOfYear,&#xA;&#x9;&#x9;DATEPART(WW, @CurrentDate) + 1 - DATEPART(WW, CONVERT(VARCHAR, &#xA;&#x9;&#x9;DATEPART(MM, @CurrentDate)) + '/1/' + CONVERT(VARCHAR, &#xA;&#x9;&#x9;DATEPART(YY, @CurrentDate))) AS WeekOfMonth,&#xA;&#x9;&#x9;(DATEDIFF(DD, DATEADD(QQ, DATEDIFF(QQ, 0, @CurrentDate), 0), &#xA;&#x9;&#x9;@CurrentDate) / 7) + 1 AS WeekOfQuarter,&#xA;&#x9;&#x9;DATEPART(WW, @CurrentDate) AS WeekOfYear,&#xA;&#x9;&#x9;DATEPART(MM, @CurrentDate) AS Month,&#xA;&#x9;&#x9;DATENAME(MM, @CurrentDate) AS MonthName,&#xA;&#x9;&#x9;CASE&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (1, 4, 7, 10) THEN 1&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (2, 5, 8, 11) THEN 2&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (3, 6, 9, 12) THEN 3&#xA;&#x9;&#x9;&#x9;END AS MonthOfQuarter,&#xA;&#x9;&#x9;'Q' + CONVERT(VARCHAR, DATEPART(QQ, @CurrentDate)) AS Quarter,&#xA;&#x9;&#x9;CASE DATEPART(QQ, @CurrentDate)&#xA;&#x9;&#x9;&#x9;WHEN 1 THEN 'First'&#xA;&#x9;&#x9;&#x9;WHEN 2 THEN 'Second'&#xA;&#x9;&#x9;&#x9;WHEN 3 THEN 'Third'&#xA;&#x9;&#x9;&#x9;WHEN 4 THEN 'Fourth'&#xA;&#x9;&#x9;&#x9;END AS QuarterName,&#xA;&#x9;&#x9;DATEPART(YEAR, @CurrentDate) AS Year,&#xA;&#x9;&#x9;'CY ' + CONVERT(VARCHAR, DATEPART(YEAR, @CurrentDate)) AS YearName,&#xA;&#x9;&#x9;LEFT(DATENAME(MM, @CurrentDate), 3) + '-' + CONVERT(VARCHAR, &#xA;&#x9;&#x9;DATEPART(YY, @CurrentDate)) AS MonthYear,&#xA;&#x9;&#x9;RIGHT('0' + CONVERT(VARCHAR, DATEPART(MM, @CurrentDate)),2) + &#xA;&#x9;&#x9;CONVERT(VARCHAR, DATEPART(YY, @CurrentDate)) AS MMYYYY,&#xA;&#x9;&#x9;CONVERT(DATETIME, CONVERT(DATE, DATEADD(DD, - (DATEPART(DD, &#xA;&#x9;&#x9;@CurrentDate) - 1), @CurrentDate))) AS FirstDayOfMonth,&#xA;&#x9;&#x9;CONVERT(DATETIME, CONVERT(DATE, DATEADD(DD, - (DATEPART(DD, &#xA;&#x9;&#x9;(DATEADD(MM, 1, @CurrentDate)))), DATEADD(MM, 1, &#xA;&#x9;&#x9;@CurrentDate)))) AS LastDayOfMonth,&#xA;&#x9;&#x9;DATEADD(QQ, DATEDIFF(QQ, 0, @CurrentDate), 0) AS FirstDayOfQuarter,&#xA;&#x9;&#x9;DATEADD(QQ, DATEDIFF(QQ, -1, @CurrentDate), -1) AS LastDayOfQuarter,&#xA;&#x9;&#x9;CONVERT(DATETIME, '01/01/' + CONVERT(VARCHAR, DATEPART(YY, &#xA;&#x9;&#x9;@CurrentDate))) AS FirstDayOfYear,&#xA;&#x9;&#x9;CONVERT(DATETIME, '12/31/' + CONVERT(VARCHAR, DATEPART(YY, &#xA;&#x9;&#x9;@CurrentDate))) AS LastDayOfYear,&#xA;&#x9;&#x9;NULL AS IsHoliday,&#xA;&#x9;&#x9;CASE DATEPART(DW, @CurrentDate)&#xA;&#x9;&#x9;&#x9;WHEN 1 THEN 0&#xA;&#x9;&#x9;&#x9;WHEN 2 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 3 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 4 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 5 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 6 THEN 1&#xA;&#x9;&#x9;&#x9;WHEN 7 THEN 0&#xA;&#x9;&#x9;&#x9;END AS IsWeekday,&#xA;&#x9;&#x9;NULL AS Holiday,&#xA;&#x9;&#x9; CASE&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (12,1,2) THEN 'Winter'&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (3,4,5) THEN 'Spring'&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (6,7,8) THEN 'Summer'&#xA;&#x9;&#x9;&#x9;WHEN DATEPART(MM, @CurrentDate) IN (9,10,11) THEN 'Fall'&#xA;&#x9;&#x9;&#x9;END AS Season&#xA;&#xA;&#x9;SET @CurrentDate = DATEADD(DD, 1, @CurrentDate)&#xA;END&#xA;&#xA;--Update values of holiday as per USA Govt. Declaration for National Holiday&#xA;&#xA;&#x9;-- THANKSGIVING - Fourth THURSDAY in November&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Thanksgiving Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 11 &#xA;&#x9;&#x9;AND [DayName] = 'Thursday' &#xA;&#x9;&#x9;AND DayOfWeekInMonth = 4&#xA;&#xA;&#x9;-- CHRISTMAS&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Christmas Day'&#xA;&#x9;&#x9;&#xA;&#x9;WHERE [Month] = 12 AND [DayOfMonth]  = 25&#xA;&#xA;&#x9;-- 4th of July&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Independance Day'&#xA;&#x9;WHERE [Month] = 7 AND [DayOfMonth] = 4&#xA;&#xA;&#x9;-- New Years Day&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'New Year''s Day'&#xA;&#x9;WHERE [Month] = 1 AND [DayOfMonth] = 1&#xA;&#xA;&#x9;-- Memorial Day - Last Monday in May&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Memorial Day'&#xA;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;WHERE Date_SK IN &#xA;&#x9;&#x9;(&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;MAX(Date_SK)&#xA;&#x9;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;[MonthName] = 'May'&#xA;&#x9;&#x9;&#x9;AND [DayName]  = 'Monday'&#xA;&#x9;&#x9;GROUP BY&#xA;&#x9;&#x9;&#x9;[Year],&#xA;&#x9;&#x9;&#x9;[Month]&#xA;&#x9;&#x9;)&#xA;&#xA;&#x9;-- Labor Day - First Monday in September&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Labor Day'&#xA;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;WHERE Date_SK IN &#xA;&#x9;&#x9;(&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;MIN(Date_SK)&#xA;&#x9;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;[MonthName] = 'September'&#xA;&#x9;&#x9;&#x9;AND [DayName] = 'Monday'&#xA;&#x9;&#x9;GROUP BY&#xA;&#x9;&#x9;&#x9;[Year],&#xA;&#x9;&#x9;&#x9;[Month]&#xA;&#x9;&#x9;)&#xA;&#xA;&#x9;-- Valentine's Day&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Valentine''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 2 &#xA;&#x9;&#x9;AND [DayOfMonth] = 14&#xA;&#xA;&#x9;-- Saint Patrick's Day&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Saint Patrick''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 3&#xA;&#x9;&#x9;AND [DayOfMonth] = 17&#xA;&#xA;&#x9;-- Martin Luthor King Day - Third Monday in January starting in 1983&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Martin Luthor King Jr Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 1&#xA;&#x9;&#x9;AND [DayName]  = 'Monday'&#xA;&#x9;&#x9;AND [Year] &gt;= 1983&#xA;&#x9;&#x9;AND DayOfWeekInMonth = 3&#xA;&#xA;&#x9;-- President's Day - Third Monday in February&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'President''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 2&#xA;&#x9;&#x9;AND [DayName] = 'Monday'&#xA;&#x9;&#x9;AND DayOfWeekInMonth = 3&#xA;&#xA;&#x9;-- Mother's Day - Second Sunday of May&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Mother''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 5&#xA;&#x9;&#x9;AND [DayName] = 'Sunday'&#xA;&#x9;&#x9;AND DayOfWeekInMonth = 2&#xA;&#xA;&#x9;-- Father's Day - Third Sunday of June&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Father''s Day'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 6&#xA;&#x9;&#x9;AND [DayName] = 'Sunday'&#xA;&#x9;&#x9;AND DayOfWeekInMonth = 3&#xA;&#xA;&#x9;-- Halloween 10/31*/&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;SET Holiday = 'Halloween'&#xA;&#x9;WHERE&#xA;&#x9;&#x9;[Month] = 10&#xA;&#x9;&#x9;AND [DayOfMonth] = 31&#xA;&#xA;&#x9;-- Election Day - The first Tuesday after the first Monday in November&#xA;&#x9;BEGIN&#xA;&#x9;DECLARE @Holidays TABLE (ID INT IDENTITY(1,1), &#xA;&#x9;DateID int, Week TINYINT, YEAR CHAR(4), DAY CHAR(2))&#xA;&#xA;&#x9;&#x9;INSERT INTO @Holidays(DateID, [Year],[Day])&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;Date_SK,&#xA;&#x9;&#x9;&#x9;[Year],&#xA;&#x9;&#x9;&#x9;[DayOfMonth] &#xA;&#x9;&#x9;FROM [dbo].[DimDate]&#xA;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;[Month] = 11&#xA;&#x9;&#x9;&#x9;AND [DayName] = 'Monday'&#xA;&#x9;&#x9;ORDER BY&#xA;&#x9;&#x9;&#x9;YEAR,&#xA;&#x9;&#x9;&#x9;DayOfMonth &#xA;&#xA;&#x9;&#x9;DECLARE @CNTR INT, @POS INT, @STARTYEAR INT, @ENDYEAR INT, @MINDAY INT&#xA;&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;@CURRENTYEAR = MIN([Year]),&#xA;&#x9;&#x9;&#x9;@STARTYEAR = MIN([Year]),&#xA;&#x9;&#x9;&#x9;@ENDYEAR = MAX([Year])&#xA;&#x9;&#x9;FROM @Holidays&#xA;&#xA;&#x9;&#x9;WHILE @CURRENTYEAR &lt;= @ENDYEAR&#xA;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;SELECT @CNTR = COUNT([Year])&#xA;&#x9;&#x9;&#x9;FROM @Holidays&#xA;&#x9;&#x9;&#x9;WHERE [Year] = @CURRENTYEAR&#xA;&#xA;&#x9;&#x9;&#x9;SET @POS = 1&#xA;&#xA;&#x9;&#x9;&#x9;WHILE @POS &lt;= @CNTR&#xA;&#x9;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;&#x9;SELECT @MINDAY = MIN(DAY)&#xA;&#x9;&#x9;&#x9;&#x9;FROM @Holidays&#xA;&#x9;&#x9;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;[Year] = @CURRENTYEAR&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;AND [Week] IS NULL&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;UPDATE @Holidays&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;SET [Week] = @POS&#xA;&#x9;&#x9;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;[Year] = @CURRENTYEAR&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;AND [Day] = @MINDAY&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;SELECT @POS = @POS + 1&#xA;&#x9;&#x9;&#x9;END&#xA;&#xA;&#x9;&#x9;&#x9;SELECT @CURRENTYEAR = @CURRENTYEAR + 1&#xA;&#x9;&#x9;END&#xA;&#xA;&#x9;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;&#x9;&#x9;SET Holiday  = 'Election Day'&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;FROM [dbo].[DimDate] DT&#xA;&#x9;&#x9;&#x9;JOIN @Holidays HL ON (HL.DateID + 1) = DT.Date_SK&#xA;&#x9;&#x9;WHERE&#xA;&#x9;&#x9;&#x9;[Week] = 1&#xA;&#x9;END&#xA;&#x9;-- Set flag for USA holidays in Dimension&#xA;&#x9;UPDATE [dbo].[DimDate]&#xA;&#x9;SET IsHoliday = &#xA;&#x9;&#x9;CASE&#x9;WHEN Holiday IS NULL THEN 0 &#xA;&#x9;&#x9;&#x9;WHEN Holiday IS NOT NULL THEN 1 &#xA;&#x9;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -3149,7 +3149,7 @@ FROM Property</property>
                     <property
                       dataType="System.String"
                       description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
-                      name="FastLoadOptions"></property>
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
                     <property
                       dataType="System.Int32"
                       description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
@@ -3190,18 +3190,24 @@ FROM Property</property>
                           externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Property_SK]"
                           lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Property_SK]" />
                         <inputColumn
-                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ContactDate]"
-                          cachedDataType="dbTimeStamp"
-                          cachedName="ContactDate"
-                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact_Date]"
-                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactDate]" />
-                        <inputColumn
                           refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ContactReason]"
                           cachedDataType="wstr"
                           cachedLength="15"
                           cachedName="ContactReason"
                           externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact_Reason]"
                           lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactReason]" />
+                        <inputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ContactDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ContactDate"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ContactDATE]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[ContactDate]" />
+                        <inputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Date_SK]"
+                          cachedDataType="i4"
+                          cachedName="Date_SK"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Date_SK]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Date_SK]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
@@ -3218,14 +3224,18 @@ FROM Property</property>
                           dataType="i4"
                           name="Listing_SK" />
                         <externalMetadataColumn
-                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact_Date]"
-                          dataType="i4"
-                          name="Contact_Date" />
-                        <externalMetadataColumn
                           refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact_Reason]"
                           dataType="wstr"
                           length="15"
                           name="Contact_Reason" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Date_SK]"
+                          dataType="i4"
+                          name="Date_SK" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ContactDATE]"
+                          dataType="dbTimeStamp"
+                          name="ContactDATE" />
                       </externalMetadataColumns>
                     </input>
                   </inputs>
@@ -3282,11 +3292,13 @@ FROM Property</property>
                       UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">--Script written by Grace Brockwell, Avery Cederstrand, Haley Miller
 --Load Redwood DM Fact Table
 
-SELECT Redwood.dbo.CustAgentList.ContactReason AS ContactReason, 
-		 Redwood.dbo.CustAgentList.ContactDate AS ContactDate,
+SELECT 
 		DimAgent.Agent_SK,
 		DimListing.Listing_SK,
-		DimProperty.Property_SK
+		DimProperty.Property_SK,
+		DimDate.Date_SK,
+		Redwood.dbo.CustAgentList.ContactReason AS ContactReason, 
+		 Redwood.dbo.CustAgentList.ContactDate AS ContactDate
 FROM Redwood.dbo.CustAgentList
 INNER JOIN Redwood.dbo.ContactReason
 ON Redwood.dbo.ContactReason.ContactReason = Redwood.dbo.CustAgentList.ContactReason
@@ -3299,7 +3311,7 @@ INNER JOIN Redwood.dbo.Listing
 INNER JOIN DimProperty
 	ON DimProperty.Property_AK = Redwood.dbo.Listing.PropertyID
 INNER JOIN DimDate
-	ON DimDate.Date = Redwood.dbo.CustAgentList.ContactDate</property>
+	ON DimDate.[Date] = Redwood.dbo.CustAgentList.ContactDate</property>
                     <property
                       dataType="System.String"
                       description="The variable that contains the SQL command to be executed."
@@ -3381,6 +3393,15 @@ INNER JOIN DimDate
                           lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Property_SK]"
                           name="Property_SK"
                           truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Date_SK]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Date_SK]"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].Columns[Date_SK]"
+                          name="Date_SK"
+                          truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
@@ -3405,6 +3426,10 @@ INNER JOIN DimDate
                           refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Property_SK]"
                           dataType="i4"
                           name="Property_SK" />
+                        <externalMetadataColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Date_SK]"
+                          dataType="i4"
+                          name="Date_SK" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -3428,6 +3453,11 @@ INNER JOIN DimDate
                           dataType="i4"
                           lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Agent_SK]"
                           name="Agent_SK" />
+                        <outputColumn
+                          refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Date_SK]"
+                          dataType="i4"
+                          lineageId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Date_SK]"
+                          name="Date_SK" />
                         <outputColumn
                           refId="Package\Load Fact Table\Load FactContacts\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Listing_SK]"
                           dataType="i4"
@@ -3492,7 +3522,7 @@ INNER JOIN DimDate
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{A4BDC931-84E6-4F9C-93C8-B92D101CFFB0}"
-              SQLTask:SqlStatementSource="--Built by: Grace Brockwell, Avery Cederstrand, Haley Miller&#xA;--Build Redwood DM&#xA;IF NOT EXISTS(SELECT * FROM sys.databases&#xA;&#x9;&#x9;&#x9;&#x9;WHERE name = N'RedwoodDM')&#xA;&#x9;CREATE DATABASE RedwoodDM&#xA;GO&#xA;USE RedwoodDM&#xA;--&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'FactContacts'&#xA;&#x9;)&#xA;&#x9;DROP TABLE FactContacts;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimProperty'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimProperty;&#xA;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimAgent'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimAgent;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimListing'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimListing;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimDate'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimDate;&#xA;--&#xA;CREATE TABLE DimDate&#xA;&#x9;(&#x9;Date_SK INT PRIMARY KEY, &#xA;&#x9;&#x9;Date DATETIME,&#xA;&#x9;&#x9;FullDate CHAR(10),-- Date in MM-dd-yyyy format&#xA;&#x9;&#x9;DayOfMonth INT, -- Field will hold day number of Month&#xA;&#x9;&#x9;DayName VARCHAR(9), -- Contains name of the day, Sunday, Monday &#xA;&#x9;&#x9;DayOfWeek INT,-- First Day Sunday=1 and Saturday=7&#xA;&#x9;&#x9;DayOfWeekInMonth INT, -- 1st Monday or 2nd Monday in Month&#xA;&#x9;&#x9;DayOfWeekInYear INT,&#xA;&#x9;&#x9;DayOfQuarter INT,&#xA;&#x9;&#x9;DayOfYear INT,&#xA;&#x9;&#x9;WeekOfMonth INT,-- Week Number of Month &#xA;&#x9;&#x9;WeekOfQuarter INT, -- Week Number of the Quarter&#xA;&#x9;&#x9;WeekOfYear INT,-- Week Number of the Year&#xA;&#x9;&#x9;Month INT, -- Number of the Month 1 to 12{}&#xA;&#x9;&#x9;MonthName VARCHAR(9),-- January, February etc&#xA;&#x9;&#x9;MonthOfQuarter INT,-- Month Number belongs to Quarter&#xA;&#x9;&#x9;Quarter CHAR(2),&#xA;&#x9;&#x9;QuarterName VARCHAR(9),-- First,Second..&#xA;&#x9;&#x9;Year INT,-- Year value of Date stored in Row&#xA;&#x9;&#x9;YearName CHAR(7), -- CY 2015,CY 2016&#xA;&#x9;&#x9;MonthYear CHAR(10), -- Jan-2016,Feb-2016&#xA;&#x9;&#x9;MMYYYY INT,&#xA;&#x9;&#x9;FirstDayOfMonth DATE,&#xA;&#x9;&#x9;LastDayOfMonth DATE,&#xA;&#x9;&#x9;FirstDayOfQuarter DATE,&#xA;&#x9;&#x9;LastDayOfQuarter DATE,&#xA;&#x9;&#x9;FirstDayOfYear DATE,&#xA;&#x9;&#x9;LastDayOfYear DATE,&#xA;&#x9;&#x9;IsHoliday BIT,-- Flag 1=National Holiday, 0-No National Holiday&#xA;&#x9;&#x9;IsWeekday BIT,-- 0=Week End ,1=Week Day&#xA;&#x9;&#x9;Holiday VARCHAR(50),--Name of Holiday in US&#xA;&#x9;&#x9;Season VARCHAR(10)--Name of Season&#xA;&#x9;);&#xA;--&#xA;CREATE TABLE DimListing&#xA;&#x9;(&#x9;Listing_SK INT IDENTITY(1,1) CONSTRAINT pk_SKListing PRIMARY KEY,&#xA;&#x9;&#x9;Listing_AK&#x9; INT,&#xA;&#x9;&#x9;BeginListDate  DATETIME,&#xA;&#x9;&#x9;EndListDate    DATETIME,&#xA;&#x9;&#x9;AskingPrice    MONEY,&#xA;&#x9;&#x9;StartDate&#x9;&#x9;DATETIME NULL,&#xA;&#x9;&#x9;EndDate&#x9;&#x9;DATETIMe NULL &#xA;&#xA;&#x9;);&#xA;--&#xA;CREATE TABLE DimAgent&#xA;&#x9;(   Agent_SK INT IDENTITY(1,1) CONSTRAINT pk_SKAgent PRIMARY KEY,&#xA;&#x9;&#x9;AgentID&#x9;INT,&#xA;&#x9;&#x9;FirstName&#x9;NVARCHAR(30) CONSTRAINT nn_agents_fname NOT NULL,&#xA;&#x9;&#x9;LastName&#x9;NVARCHAR(30) CONSTRAINT nn_agents_lname NOT NULL,&#xA;&#x9;&#x9;HireDate&#x9;DATETIME NOT NULL,&#xA;&#x9;&#x9;BirthDate&#x9;DATETIME NOT NULL,&#xA;&#x9;&#x9;Gender&#x9;&#x9;NCHAR(1),&#xA;&#x9;&#x9;LicenseDate   DATETIME,&#xA;&#x9;&#x9;StartDate&#x9;&#x9;DATETIME NULL,&#xA;&#x9;&#x9;EndDate&#x9;&#x9;DATETIMe NULL &#xA;&#x9;);&#xA;--&#xA;CREATE TABLE DimProperty&#xA;&#x9;(   Property_SK INT IDENTITY (1,1) CONSTRAINT pk_SKProperty PRIMARY KEY,&#xA;&#x9;&#x9;Property_AK INT,&#xA;&#x9;&#x9;City&#x9;     NVARCHAR(30) NOT NULL,&#xA;&#x9;&#x9;State&#x9;     NVARCHAR(20) NOT NULL,&#xA;&#x9;&#x9;Zipcode     NVARCHAR(20) NOT NULL,&#xA;&#x9;&#x9;Bedrooms    INT,&#xA;&#x9;&#x9;Bathrooms   INT,&#xA;&#x9;&#x9;SqFt&#x9;     INT,&#xA;&#x9;&#x9;YearBuilt   NUMERIC(4),&#xA;&#x9;&#x9;StartDate&#x9;&#x9;DATETIME NULL,&#xA;&#x9;&#x9;EndDate&#x9;&#x9;DATETIMe NULL &#xA;&#x9;);&#xA;--&#xA;CREATE TABLE FactContacts&#xA;&#x9;(Agent_SK&#x9;INT CONSTRAINT FK_agentSK REFERENCES DimAgent(Agent_SK),&#xA;&#x9;Property_SK INT CONSTRAINT FK_propertySK REFERENCES DimProperty(Property_SK),&#xA;&#x9;Listing_SK&#x9;INT CONSTRAINT FK_ListingSK REFERENCES DimListing(Listing_SK),&#xA;&#x9;Contact_Date INT CONSTRAINT FK_ContDateSK REFERENCES DimDate(Date_SK),&#xA;&#x9;Contact_Reason NVARCHAR(15)&#xA;&#x9;CONSTRAINT pk_FactContact PRIMARY KEY (Agent_SK, Property_SK, Listing_SK, Contact_Date)&#xA;&#x9;);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="--Built by: Grace Brockwell, Avery Cederstrand, Haley Miller&#xA;--Build Redwood DM&#xA;IF NOT EXISTS(SELECT * FROM sys.databases&#xA;&#x9;&#x9;&#x9;&#x9;WHERE name = N'RedwoodDM')&#xA;&#x9;CREATE DATABASE RedwoodDM&#xA;GO&#xA;USE RedwoodDM&#xA;--&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'FactContacts'&#xA;&#x9;)&#xA;&#x9;DROP TABLE FactContacts;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimProperty'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimProperty;&#xA;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimAgent'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimAgent;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimListing'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimListing;&#xA;--&#xA;IF EXISTS(&#xA;&#x9;SELECT *&#xA;&#x9;FROM sys.tables&#xA;&#x9;WHERE name= N'DimDate'&#xA;&#x9;)&#xA;&#x9;DROP TABLE DimDate;&#xA;--&#xA;CREATE TABLE DimDate&#xA;&#x9;(&#x9;Date_SK INT PRIMARY KEY, &#xA;&#x9;&#x9;Date DATETIME,&#xA;&#x9;&#x9;FullDate CHAR(10),-- Date in MM-dd-yyyy format&#xA;&#x9;&#x9;DayOfMonth INT, -- Field will hold day number of Month&#xA;&#x9;&#x9;DayName VARCHAR(9), -- Contains name of the day, Sunday, Monday &#xA;&#x9;&#x9;DayOfWeek INT,-- First Day Sunday=1 and Saturday=7&#xA;&#x9;&#x9;DayOfWeekInMonth INT, -- 1st Monday or 2nd Monday in Month&#xA;&#x9;&#x9;DayOfWeekInYear INT,&#xA;&#x9;&#x9;DayOfQuarter INT,&#xA;&#x9;&#x9;DayOfYear INT,&#xA;&#x9;&#x9;WeekOfMonth INT,-- Week Number of Month &#xA;&#x9;&#x9;WeekOfQuarter INT, -- Week Number of the Quarter&#xA;&#x9;&#x9;WeekOfYear INT,-- Week Number of the Year&#xA;&#x9;&#x9;Month INT, -- Number of the Month 1 to 12{}&#xA;&#x9;&#x9;MonthName VARCHAR(9),-- January, February etc&#xA;&#x9;&#x9;MonthOfQuarter INT,-- Month Number belongs to Quarter&#xA;&#x9;&#x9;Quarter CHAR(2),&#xA;&#x9;&#x9;QuarterName VARCHAR(9),-- First,Second..&#xA;&#x9;&#x9;Year INT,-- Year value of Date stored in Row&#xA;&#x9;&#x9;YearName CHAR(7), -- CY 2015,CY 2016&#xA;&#x9;&#x9;MonthYear CHAR(10), -- Jan-2016,Feb-2016&#xA;&#x9;&#x9;MMYYYY INT,&#xA;&#x9;&#x9;FirstDayOfMonth DATE,&#xA;&#x9;&#x9;LastDayOfMonth DATE,&#xA;&#x9;&#x9;FirstDayOfQuarter DATE,&#xA;&#x9;&#x9;LastDayOfQuarter DATE,&#xA;&#x9;&#x9;FirstDayOfYear DATE,&#xA;&#x9;&#x9;LastDayOfYear DATE,&#xA;&#x9;&#x9;IsHoliday BIT,-- Flag 1=National Holiday, 0-No National Holiday&#xA;&#x9;&#x9;IsWeekday BIT,-- 0=Week End ,1=Week Day&#xA;&#x9;&#x9;Holiday VARCHAR(50),--Name of Holiday in US&#xA;&#x9;&#x9;Season VARCHAR(10)--Name of Season&#xA;&#x9;);&#xA;--&#xA;CREATE TABLE DimListing&#xA;&#x9;(&#x9;Listing_SK INT IDENTITY(1,1) CONSTRAINT pk_SKListing PRIMARY KEY,&#xA;&#x9;&#x9;Listing_AK&#x9; INT,&#xA;&#x9;&#x9;BeginListDate  DATETIME,&#xA;&#x9;&#x9;EndListDate    DATETIME,&#xA;&#x9;&#x9;AskingPrice    MONEY,&#xA;&#x9;&#x9;StartDate&#x9;&#x9;DATETIME NULL,&#xA;&#x9;&#x9;EndDate&#x9;&#x9;DATETIMe NULL &#xA;&#xA;&#x9;);&#xA;--&#xA;CREATE TABLE DimAgent&#xA;&#x9;(   Agent_SK INT IDENTITY(1,1) CONSTRAINT pk_SKAgent PRIMARY KEY,&#xA;&#x9;&#x9;AgentID&#x9;INT,&#xA;&#x9;&#x9;FirstName&#x9;NVARCHAR(30) CONSTRAINT nn_agents_fname NOT NULL,&#xA;&#x9;&#x9;LastName&#x9;NVARCHAR(30) CONSTRAINT nn_agents_lname NOT NULL,&#xA;&#x9;&#x9;HireDate&#x9;DATETIME NOT NULL,&#xA;&#x9;&#x9;BirthDate&#x9;DATETIME NOT NULL,&#xA;&#x9;&#x9;Gender&#x9;&#x9;NCHAR(1),&#xA;&#x9;&#x9;LicenseDate   DATETIME,&#xA;&#x9;&#x9;StartDate&#x9;&#x9;DATETIME NULL,&#xA;&#x9;&#x9;EndDate&#x9;&#x9;DATETIMe NULL &#xA;&#x9;);&#xA;--&#xA;CREATE TABLE DimProperty&#xA;&#x9;(   Property_SK INT IDENTITY (1,1) CONSTRAINT pk_SKProperty PRIMARY KEY,&#xA;&#x9;&#x9;Property_AK INT,&#xA;&#x9;&#x9;City&#x9;     NVARCHAR(30) NOT NULL,&#xA;&#x9;&#x9;State&#x9;     NVARCHAR(20) NOT NULL,&#xA;&#x9;&#x9;Zipcode     NVARCHAR(20) NOT NULL,&#xA;&#x9;&#x9;Bedrooms    INT,&#xA;&#x9;&#x9;Bathrooms   INT,&#xA;&#x9;&#x9;SqFt&#x9;     INT,&#xA;&#x9;&#x9;YearBuilt   NUMERIC(4),&#xA;&#x9;&#x9;StartDate&#x9;&#x9;DATETIME NULL,&#xA;&#x9;&#x9;EndDate&#x9;&#x9;DATETIMe NULL &#xA;&#x9;);&#xA;--&#xA;CREATE TABLE FactContacts&#xA;&#x9;(Agent_SK&#x9;INT CONSTRAINT FK_agentSK REFERENCES DimAgent(Agent_SK),&#xA;&#x9;Property_SK INT CONSTRAINT FK_propertySK REFERENCES DimProperty(Property_SK),&#xA;&#x9;Listing_SK&#x9;INT CONSTRAINT FK_ListingSK REFERENCES DimListing(Listing_SK),&#xA;&#x9;Date_SK INT CONSTRAINT FK_ContDateSK REFERENCES DimDate(Date_SK),&#xA;&#x9;ContactDATE DATETIME, &#xA;&#x9;Contact_Reason NVARCHAR(15),&#xA;&#x9;CONSTRAINT pk_FactContact PRIMARY KEY (Agent_SK, Property_SK, Listing_SK, date_sk)&#xA;&#x9;);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -3535,60 +3565,60 @@ INNER JOIN DimDate
         <NodeLayout
           Size="145,41.5"
           Id="Package\Load Dim Tables\Load DimDate"
-          TopLeft="102.985716572586,5.94706221253821" />
+          TopLeft="107.360716572586,6.75" />
         <NodeLayout
           Size="158.5,41.5"
           Id="Package\Load Dim Tables\Load DimListings"
-          TopLeft="95.076927591358,75.4606171889961" />
+          TopLeft="95.701927591358,75.4606171889961" />
         <NodeLayout
           Size="163,41.5"
           Id="Package\Load Dim Tables\Load DimProperty"
           TopLeft="93.500006602361,242.142441518467" />
         <EdgeLayout
           Id="Package\Load Dim Tables.PrecedenceConstraints[Constraint]"
-          TopLeft="174.831322081972,47.5470622125382">
+          TopLeft="177.406322081972,48.25">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,27.9135549764579"
+              EndConnector="0,27.2106171889961"
               Start="0,0"
-              End="0,20.4135549764579">
+              End="0,19.7106171889961">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.4135549764579" />
+                    End="0,19.7106171889961" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-17.9932421875,5.42992201947895,35.986484375,9.5537109375"
+              BoundingBox="-17.9932421875,5.07845312574804,35.986484375,9.5537109375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Dim Tables.PrecedenceConstraints[Constraint 1]"
-          TopLeft="175.200002567585,117.060617188996">
+          TopLeft="175.562502567585,116.960617188996">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,49.2686901512305"
+              EndConnector="0,49.3686901512309"
               Start="0,0"
-              End="0,41.7686901512305">
+              End="0,41.8686901512309">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,41.7686901512305" />
+                    End="0,41.8686901512309" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-17.9932421875,16.1074896068653,35.986484375,9.5537109375"
+              BoundingBox="-17.9932421875,16.1574896068655,35.986484375,9.5537109375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -3637,35 +3667,35 @@ INNER JOIN DimDate
         <NodeLayout
           Size="120,41.5"
           Id="Package\Prepare ETL\Build DM"
-          TopLeft="31.2000038146974,21.0352957478032" />
+          TopLeft="67.4500038146974,19.7852957478032" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
           PanelSize="265.5,118"
           Size="265.5,161"
           Id="Package\Prepare ETL"
-          TopLeft="83.7857147333573,2.78235300123482" />
+          TopLeft="83.7857147333573,3.40735300123481" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="219.633928796872,163.782353001235">
+          TopLeft="219.633928796872,164.407353001235">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,40.4348065298182"
+              EndConnector="0,39.8098065298182"
               Start="0,0"
-              End="0,32.9348065298182">
+              End="0,32.3098065298182">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,32.9348065298182" />
+                    End="0,32.3098065298182" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-17.9932421875,11.6905477961591,35.986484375,9.5537109375"
+              BoundingBox="-17.9932421875,11.3780477961591,35.986484375,9.5537109375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -3702,13 +3732,17 @@ INNER JOIN DimDate
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="120,41.5"
-          Id="Package\Load Dim Tables\Load DimAgent\Union All"
-          TopLeft="170.9,411.9" />
+          Size="153.5,41.5"
+          Id="Package\Load Dim Tables\Load DimAgent\Derived Column"
+          TopLeft="16.1,208.7" />
         <NodeLayout
           Size="162.5,41.5"
           Id="Package\Load Dim Tables\Load DimAgent\Derived Column 1"
           TopLeft="149.7,513.5" />
+        <NodeLayout
+          Size="120,41.5"
+          Id="Package\Load Dim Tables\Load DimAgent\Union All"
+          TopLeft="170.9,411.9" />
         <NodeLayout
           Size="162.5,41.5"
           Id="Package\Load Dim Tables\Load DimAgent\Insert Destination"
@@ -3725,10 +3759,6 @@ INNER JOIN DimDate
           Size="149.5,41.5"
           Id="Package\Load Dim Tables\Load DimAgent\OLE DB Source"
           TopLeft="156.1,5.49999999999995" />
-        <NodeLayout
-          Size="153.5,41.5"
-          Id="Package\Load Dim Tables\Load DimAgent\Derived Column"
-          TopLeft="16.1,208.7" />
         <EdgeLayout
           Id="Package\Load Dim Tables\Load DimAgent.Paths[Union All Output 1]"
           TopLeft="230.9,453.5">
@@ -3748,7 +3778,9 @@ INNER JOIN DimDate
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3770,7 +3802,9 @@ INNER JOIN DimDate
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3804,7 +3838,9 @@ INNER JOIN DimDate
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3898,7 +3934,9 @@ INNER JOIN DimDate
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3920,7 +3958,9 @@ INNER JOIN DimDate
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -4029,78 +4069,78 @@ INNER JOIN DimDate
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="165,41.5"
+          Size="165.5,42"
           Id="Package\Load Dim Tables\Load DimListings\OLE DB Command"
-          TopLeft="5.50000000000003,310.3" />
+          TopLeft="5.50000000000003,310.5" />
         <NodeLayout
           Size="149.5,41.5"
           Id="Package\Load Dim Tables\Load DimListings\OLE DB Source"
-          TopLeft="156.1,5.49999999999995" />
+          TopLeft="157.5,5.5" />
         <NodeLayout
-          Size="162.5,41.5"
+          Size="163,42"
           Id="Package\Load Dim Tables\Load DimListings\Derived Column 1"
-          TopLeft="149.7,513.5" />
+          TopLeft="150.75,514.5" />
         <NodeLayout
           Size="208,41.5"
           Id="Package\Load Dim Tables\Load DimListings\Slowly Changing Dimension"
-          TopLeft="126.9,107.1" />
+          TopLeft="128.25,107" />
         <NodeLayout
-          Size="120,41.5"
+          Size="120.5,42"
           Id="Package\Load Dim Tables\Load DimListings\Union All"
-          TopLeft="170.9,411.9" />
+          TopLeft="172,412.5" />
         <NodeLayout
-          Size="162.5,41.5"
+          Size="163,42"
           Id="Package\Load Dim Tables\Load DimListings\Insert Destination"
-          TopLeft="149.7,615.099999999999" />
+          TopLeft="150.75,616.5" />
         <NodeLayout
-          Size="153.5,41.5"
+          Size="154,42"
           Id="Package\Load Dim Tables\Load DimListings\Derived Column"
-          TopLeft="16.1,208.7" />
+          TopLeft="17.25,208.5" />
         <EdgeLayout
           Id="Package\Load Dim Tables\Load DimListings.Paths[New Output]"
-          TopLeft="264.233333333333,148.7">
+          TopLeft="265.583333333333,148.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-14.6666666666666,263.2"
+              EndConnector="-14.5833333333333,264"
               Start="0,0"
-              End="-14.6666666666666,255.7">
+              End="-14.5833333333333,256.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,126.695815115553" />
+                    End="0,127.10190117025" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,126.695815115553"
-                    Point2="0,130.695815115553"
-                    Point3="-4,130.695815115553" />
+                    Point1="0,127.10190117025"
+                    Point2="0,131.10190117025"
+                    Point3="-4,131.10190117025" />
                   <mssgle:LineSegment
-                    End="-10.6666666666666,130.695815115553" />
+                    End="-10.5833333333333,131.10190117025" />
                   <mssgle:CubicBezierSegment
-                    Point1="-10.6666666666666,130.695815115553"
-                    Point2="-14.6666666666666,130.695815115553"
-                    Point3="-14.6666666666666,134.695815115553" />
+                    Point1="-10.5833333333333,131.10190117025"
+                    Point2="-14.5833333333333,131.10190117025"
+                    Point3="-14.5833333333333,135.10190117025" />
                   <mssgle:LineSegment
-                    End="-14.6666666666666,255.7" />
+                    End="-14.5833333333333,256.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-34.4247200520833,135.695815115553,54.1827734375,11.43359375"
+              BoundingBox="-34.3830533854167,136.10190117025,54.1827734375,11.43359375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Dim Tables\Load DimListings.Paths[Historical Attribute Inserts Output]"
-          TopLeft="197.566666666667,148.7">
+          TopLeft="198.916666666667,148.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-104.666666666667,59.9999999999999"
+              EndConnector="-104.666666666667,60"
               Start="0,0"
-              End="-104.666666666667,52.4999999999999">
+              End="-104.666666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -4117,7 +4157,7 @@ INNER JOIN DimDate
                     Point2="-104.666666666667,24.2748091603053"
                     Point3="-104.666666666667,28.2748091603053" />
                   <mssgle:LineSegment
-                    End="-104.666666666667,52.4999999999999" />
+                    End="-104.666666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4130,124 +4170,134 @@ INNER JOIN DimDate
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Dim Tables\Load DimListings.Paths[Derived Column Output1]"
-          TopLeft="230.9,555.1">
+          TopLeft="232.25,556.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Dim Tables\Load DimListings.Paths[Derived Column Output]"
-          TopLeft="90.4,250.3">
+          TopLeft="91.25,250.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Dim Tables\Load DimListings.Paths[Union All Output 1]"
-          TopLeft="230.9,453.5">
+          TopLeft="232.25,454.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Dim Tables\Load DimListings.Paths[OLE DB Source Output]"
-          TopLeft="230.9,47.1">
+          TopLeft="232.25,47">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Dim Tables\Load DimListings.Paths[OLE DB Command Output]"
-          TopLeft="87.9,351.9">
+          TopLeft="88.25,352.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="124.333333333333,59.9999999999999"
+              EndConnector="125.25,60"
               Start="0,0"
-              End="124.333333333333,52.4999999999999">
+              End="125.25,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.5263157894736" />
+                    End="0,31.5282555282555" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.5263157894736"
-                    Point2="0,35.5263157894736"
-                    Point3="4,35.5263157894736" />
+                    Point1="0,31.5282555282555"
+                    Point2="0,35.5282555282555"
+                    Point3="4,35.5282555282555" />
                   <mssgle:LineSegment
-                    End="120.333333333333,35.5263157894736" />
+                    End="121.25,35.5282555282555" />
                   <mssgle:CubicBezierSegment
-                    Point1="120.333333333333,35.5263157894736"
-                    Point2="124.333333333333,35.5263157894736"
-                    Point3="124.333333333333,39.5263157894736" />
+                    Point1="121.25,35.5282555282555"
+                    Point2="125.25,35.5282555282555"
+                    Point3="125.25,39.5282555282555" />
                   <mssgle:LineSegment
-                    End="124.333333333333,52.4999999999999" />
+                    End="125.25,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -4355,7 +4405,9 @@ INNER JOIN DimDate
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -4477,34 +4529,34 @@ INNER JOIN DimDate
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="150,42"
-          Id="Package\Load Fact Table\Load FactContacts\OLE DB Source"
-          TopLeft="174.2,74" />
-        <NodeLayout
           Size="170.5,41.5"
           Id="Package\Load Fact Table\Load FactContacts\OLE DB Destination"
           TopLeft="157.7,183.1" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Load Fact Table\Load FactContacts\OLE DB Source"
+          TopLeft="175.033333333333,74.8333333333333" />
         <EdgeLayout
           Id="Package\Load Fact Table\Load FactContacts.Paths[OLE DB Source Output]"
-          TopLeft="246.075,116">
+          TopLeft="246.491666666667,116.833333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,67.1"
+              EndConnector="0,66.2666666666667"
               Start="0,0"
-              End="0,59.6">
+              End="0,58.7666666666667">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,59.6" />
+                    End="0,58.7666666666667" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-8,21.8,16,16"
+              BoundingBox="-8,21.3833333333333,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
