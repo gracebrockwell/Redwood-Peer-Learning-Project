@@ -502,7 +502,7 @@ SELECT
 		DimProperty.Property_SK,
 		DimDate.Date_SK,
 		Redwood.dbo.CustAgentList.ContactReason AS ContactReason, 
-		 Redwood.dbo.CustAgentList.ContactDate AS ContactDate
+		Redwood.dbo.CustAgentList.ContactDate AS ContactDate
 FROM Redwood.dbo.CustAgentList
 INNER JOIN Redwood.dbo.ContactReason
 ON Redwood.dbo.ContactReason.ContactReason = Redwood.dbo.CustAgentList.ContactReason
