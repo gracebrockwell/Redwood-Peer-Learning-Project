@@ -505,7 +505,7 @@ SELECT
 		Redwood.dbo.CustAgentList.ContactDate AS ContactDate
 FROM Redwood.dbo.CustAgentList
 INNER JOIN Redwood.dbo.ContactReason
-ON Redwood.dbo.ContactReason.ContactReason = Redwood.dbo.CustAgentList.ContactReason
+	ON Redwood.dbo.ContactReason.ContactReason = Redwood.dbo.CustAgentList.ContactReason
 INNER JOIN DimAgent
 	ON DimAgent.AgentID = Redwood.dbo.CustAgentList.AgentID
 INNER JOIN DimListing
