@@ -20,6 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DM Build", "DM Build", "{7A
 EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "RedwoodETL", "RedwoodETL\RedwoodETL.dtproj", "{DC3BEC06-B20C-4A3C-87C9-C321E56224FB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DM Analysis", "DM Analysis", "{CCC67673-E5BE-4571-BD9A-B116E1618AD1}"
+	ProjectSection(SolutionItems) = preProject
+		Redwood DM Analysis.xlsx = Redwood DM Analysis.xlsx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Development|Default = Development|Default
