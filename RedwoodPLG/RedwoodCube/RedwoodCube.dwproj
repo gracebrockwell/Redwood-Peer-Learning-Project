@@ -6,10 +6,67 @@
     <Name>RedwoodCube.database</Name>
     <FullPath>RedwoodCube.database</FullPath>
   </Database>
+  <Cubes>
+    <ProjectItem>
+      <Name>Redwood Cube.cube</Name>
+      <FullPath>Redwood Cube.cube</FullPath>
+      <Dependencies>
+        <ProjectItem>
+          <Name>Redwood Cube.partitions</Name>
+          <FullPath>Redwood Cube.partitions</FullPath>
+        </ProjectItem>
+      </Dependencies>
+    </ProjectItem>
+  </Cubes>
+  <Dimensions>
+    <ProjectItem>
+      <Name>Dim Date.dim</Name>
+      <FullPath>Dim Date.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Dim Property.dim</Name>
+      <FullPath>Dim Property.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Dim Agent.dim</Name>
+      <FullPath>Dim Agent.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Dim Listing.dim</Name>
+      <FullPath>Dim Listing.dim</FullPath>
+    </ProjectItem>
+  </Dimensions>
+  <DataSources>
+    <ProjectItem>
+      <Name>Redwood DM.ds</Name>
+      <FullPath>Redwood DM.ds</FullPath>
+    </ProjectItem>
+  </DataSources>
+  <DataSourceViews>
+    <ProjectItem>
+      <Name>Redwood DM.dsv</Name>
+      <FullPath>Redwood DM.dsv</FullPath>
+    </ProjectItem>
+  </DataSourceViews>
   <Configurations>
     <Configuration>
       <Name>Development</Name>
-      <Options />
+      <Options>
+        <ConnectionMappings>
+          <ConfigurationSetting>
+            <Id>Redwood DM</Id>
+            <Name>Redwood DM</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI11.1;Data Source=.;Integrated Security=SSPI;Initial Catalog=RedwoodDM</Value>
+          </ConfigurationSetting>
+        </ConnectionMappings>
+        <ConnectionSecurityMappings>
+          <ConfigurationSetting>
+            <Id>Redwood DM</Id>
+            <Name>Redwood DM</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+        </ConnectionSecurityMappings>
+      </Options>
     </Configuration>
   </Configurations>
 </Project>
