@@ -23,6 +23,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DM Analysis", "DM Analysis", "{CCC67673-E5BE-4571-BD9A-B116E1618AD1}"
 	ProjectSection(SolutionItems) = preProject
 		Redwood DM Analysis.xlsx = Redwood DM Analysis.xlsx
+		Redwood DM Analysis2.xlsx = Redwood DM Analysis2.xlsx
 	EndProjectSection
 EndProject
 Global
