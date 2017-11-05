@@ -8,7 +8,7 @@
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
       <Value>
         <dds xmlns="">
-          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="20" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-4180" scrolltop="8" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="91" x="32253" y="16563" backcolor="16777215" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="20" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-4180" scrolltop="8" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="91" x="21140" y="13322" backcolor="16777215" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
             <font>
               <ddsxmlobjectstreamwrapper binary="0100000090019e330100065461686f6d61" />
             </font>
@@ -185,39 +185,6 @@
   <LastProcessed>0001-01-01T07:00:00Z</LastProcessed>
   <State>Unprocessed</State>
   <Dimensions>
-    <Dimension dwd:design-time-name="12afa9f1-8cf5-426a-9752-e32507eafc88">
-      <ID>Dim Date</ID>
-      <Name>Dim Date</Name>
-      <DimensionID>Dim Date</DimensionID>
-      <Attributes>
-        <Attribute dwd:design-time-name="f509332e-0919-43e9-93b8-5aa326e8e07a">
-          <AttributeID>Date SK</AttributeID>
-        </Attribute>
-        <Attribute dwd:design-time-name="94ce763f-dece-40bf-acd9-7633ce32d2be">
-          <AttributeID>Year</AttributeID>
-        </Attribute>
-        <Attribute dwd:design-time-name="6233302b-b442-4707-a474-e7c19d95e62d">
-          <AttributeID>Quarter</AttributeID>
-        </Attribute>
-        <Attribute dwd:design-time-name="5a39c48a-4d4d-4fc0-9ed5-33c53547e61a">
-          <AttributeID>Month Name</AttributeID>
-        </Attribute>
-        <Attribute dwd:design-time-name="db577faf-3397-4236-b60d-63c2aadced30">
-          <AttributeID>Week Of Quarter</AttributeID>
-        </Attribute>
-        <Attribute dwd:design-time-name="d5e0cb5a-d3df-4771-a505-450aad0ee4c9">
-          <AttributeID>Day Name</AttributeID>
-        </Attribute>
-        <Attribute dwd:design-time-name="33c3143b-528a-4e45-b570-1e9400dfa35f">
-          <AttributeID>Season</AttributeID>
-        </Attribute>
-      </Attributes>
-      <Hierarchies>
-        <Hierarchy dwd:design-time-name="d63373e2-8e1b-4ab1-9c2f-d6b695dbaadc">
-          <HierarchyID>Hierarchy</HierarchyID>
-        </Hierarchy>
-      </Hierarchies>
-    </Dimension>
     <Dimension dwd:design-time-name="c22f42f6-4f60-4d34-a0db-681d80872318">
       <ID>Dim Property</ID>
       <Name>Dim Property</Name>
@@ -274,24 +241,6 @@
       <StorageMode>Molap</StorageMode>
       <ProcessingMode>Regular</ProcessingMode>
       <Dimensions>
-        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="4ffe8cdc-bda4-4ef5-8d44-1a659dc89608">
-          <CubeDimensionID>Dim Date</CubeDimensionID>
-          <Attributes>
-            <Attribute dwd:design-time-name="21312a99-e694-4f9b-b2c5-6dd48646bb11">
-              <AttributeID>Date SK</AttributeID>
-              <KeyColumns>
-                <KeyColumn dwd:design-time-name="0a74e6db-a3d0-4e86-8f58-367fbdae158a">
-                  <DataType>Integer</DataType>
-                  <Source xsi:type="ColumnBinding" dwd:design-time-name="d1eadbf3-c440-4575-a890-e83eb48d7500">
-                    <TableID>dbo_FactContacts</TableID>
-                    <ColumnID>Date_SK</ColumnID>
-                  </Source>
-                </KeyColumn>
-              </KeyColumns>
-              <Type>Granularity</Type>
-            </Attribute>
-          </Attributes>
-        </Dimension>
         <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="12ee93e1-ba4a-4af3-8efc-f0a07a2df980">
           <CubeDimensionID>Dim Property</CubeDimensionID>
           <Attributes>

@@ -20,20 +20,20 @@
   </Cubes>
   <Dimensions>
     <ProjectItem>
-      <Name>Dim Date.dim</Name>
-      <FullPath>Dim Date.dim</FullPath>
+      <Name>Property.dim</Name>
+      <FullPath>Property.dim</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>Dim Property.dim</Name>
-      <FullPath>Dim Property.dim</FullPath>
+      <Name>Agent.dim</Name>
+      <FullPath>Agent.dim</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>Dim Agent.dim</Name>
-      <FullPath>Dim Agent.dim</FullPath>
+      <Name>Listing.dim</Name>
+      <FullPath>Listing.dim</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>Dim Listing.dim</Name>
-      <FullPath>Dim Listing.dim</FullPath>
+      <Name>Date.dim</Name>
+      <FullPath>Date.dim</FullPath>
     </ProjectItem>
   </Dimensions>
   <DataSources>

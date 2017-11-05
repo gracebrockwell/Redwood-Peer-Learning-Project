@@ -8,7 +8,7 @@
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
       <Value>
         <dds xmlns="">
-          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="3" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-1951" scrolltop="-4446" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="100" x="11218" y="14870" backcolor="16777215" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="3" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-1951" scrolltop="-3322" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="100" x="7885" y="13322" backcolor="16777215" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
             <font>
               <ddsxmlobjectstreamwrapper binary="0100000090019e330100065461686f6d61" />
             </font>
@@ -51,7 +51,7 @@
     </Annotation>
     <Annotation>
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
-      <Value>-4446</Value>
+      <Value>-3322</Value>
     </Annotation>
     <Annotation>
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
@@ -172,28 +172,28 @@
       <ID>Quarter</ID>
       <Name>Quarter</Name>
       <KeyColumns>
-        <KeyColumn dwd:design-time-name="6b23a2aa-993b-4408-8062-29a3aa9d6936">
-          <DataType>Integer</DataType>
-          <Source xsi:type="ColumnBinding" dwd:design-time-name="81a91bd3-ed11-4ef6-98dc-2975b64dfab2">
-            <TableID>dbo_DimDate</TableID>
-            <ColumnID>Year</ColumnID>
-          </Source>
-        </KeyColumn>
-        <KeyColumn dwd:design-time-name="4f0b9939-1aa9-4815-bc46-ee4df16d9dfd">
+        <KeyColumn dwd:design-time-name="212cfb32-468d-4790-81d0-054c7937e16a">
           <DataType>WChar</DataType>
           <DataSize>2</DataSize>
-          <Source xsi:type="ColumnBinding" dwd:design-time-name="9cebdac5-325c-4de3-a86a-8a12ab2a87f7">
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="83785a91-c803-4c86-bc1a-410b4e5cb4f4">
             <TableID>dbo_DimDate</TableID>
             <ColumnID>Quarter</ColumnID>
+          </Source>
+        </KeyColumn>
+        <KeyColumn dwd:design-time-name="0ba418e5-5326-4b03-b797-36037a92cbcf">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="29aa2b62-2fbb-47d8-a0d4-729676816646">
+            <TableID>dbo_DimDate</TableID>
+            <ColumnID>Year</ColumnID>
           </Source>
         </KeyColumn>
       </KeyColumns>
       <NameColumn dwd:design-time-name="84c4ecc5-6c22-49a3-80d4-82d50661f561">
         <DataType>WChar</DataType>
-        <DataSize>2</DataSize>
-        <Source xsi:type="ColumnBinding" dwd:design-time-name="14bf0e57-fd28-4f03-8e41-c5de9273c73e">
+        <DataSize>9</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="967c1db4-cfab-4f34-94ff-fb039aefabe4">
           <TableID>dbo_DimDate</TableID>
-          <ColumnID>Quarter</ColumnID>
+          <ColumnID>QuarterName</ColumnID>
         </Source>
       </NameColumn>
       <AttributeRelationships>
@@ -242,9 +242,8 @@
         </KeyColumn>
       </KeyColumns>
       <AttributeRelationships>
-        <AttributeRelationship dwd:design-time-name="831e9347-1eab-417f-8d7d-b1e5631cbbbe">
+        <AttributeRelationship dwd:design-time-name="e6a29484-dc69-42ef-86c2-58260ff49654">
           <AttributeID>Month Name</AttributeID>
-          <RelationshipType>Rigid</RelationshipType>
           <Name>Month Name</Name>
         </AttributeRelationship>
       </AttributeRelationships>
