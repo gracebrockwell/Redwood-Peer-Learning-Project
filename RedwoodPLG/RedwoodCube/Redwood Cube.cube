@@ -215,6 +215,36 @@
         </Attribute>
       </Attributes>
     </Dimension>
+    <Dimension dwd:design-time-name="9c0a5063-eaad-44dc-b091-ed4f7f1746f9">
+      <ID>Date</ID>
+      <Name>Date</Name>
+      <DimensionID>Date</DimensionID>
+      <Attributes>
+        <Attribute dwd:design-time-name="6bffacc9-e243-42c1-b061-f73c0970b1fb">
+          <AttributeID>Date SK</AttributeID>
+        </Attribute>
+        <Attribute dwd:design-time-name="71c5d4bd-aae3-4045-b9f8-0171600dd164">
+          <AttributeID>Week Of Quarter</AttributeID>
+        </Attribute>
+        <Attribute dwd:design-time-name="0f3b77fe-75e5-49f9-af9e-ff13bbdbd2ee">
+          <AttributeID>Month</AttributeID>
+        </Attribute>
+        <Attribute dwd:design-time-name="fccc9fd7-576c-4455-bb9e-dfd14932e772">
+          <AttributeID>Quarter</AttributeID>
+        </Attribute>
+        <Attribute dwd:design-time-name="01bf8e66-a114-429c-876d-a431d8755b96">
+          <AttributeID>Year</AttributeID>
+        </Attribute>
+        <Attribute dwd:design-time-name="132188cc-dd65-47ee-bdcc-a739dfe0bc9d">
+          <AttributeID>Season</AttributeID>
+        </Attribute>
+      </Attributes>
+      <Hierarchies>
+        <Hierarchy dwd:design-time-name="56ee5c6d-69eb-4aaa-83b4-b6d3b9ecf369">
+          <HierarchyID>Hierarchy</HierarchyID>
+        </Hierarchy>
+      </Hierarchies>
+    </Dimension>
   </Dimensions>
   <MeasureGroups>
     <MeasureGroup dwd:design-time-name="92c25bf6-ea2b-44c3-81a1-1962f8ec751b">
@@ -288,6 +318,24 @@
                   <Source xsi:type="ColumnBinding" dwd:design-time-name="4c987fec-c52e-485c-a585-1aa6e4e6fec2">
                     <TableID>dbo_FactContacts</TableID>
                     <ColumnID>Listing_SK</ColumnID>
+                  </Source>
+                </KeyColumn>
+              </KeyColumns>
+              <Type>Granularity</Type>
+            </Attribute>
+          </Attributes>
+        </Dimension>
+        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="05c82304-46f2-4b4e-b350-3cc6fe70b93f">
+          <CubeDimensionID>Date</CubeDimensionID>
+          <Attributes>
+            <Attribute dwd:design-time-name="382da9e8-6daf-4b8a-aa36-f5fddd694628">
+              <AttributeID>Date SK</AttributeID>
+              <KeyColumns>
+                <KeyColumn dwd:design-time-name="dc0850c0-45cc-4203-9cb1-a5f6b15b0175">
+                  <DataType>Integer</DataType>
+                  <Source xsi:type="ColumnBinding" dwd:design-time-name="f313395d-ef4a-477c-8300-fbf5782b610c">
+                    <TableID>dbo_FactContacts</TableID>
+                    <ColumnID>Date_SK</ColumnID>
                   </Source>
                 </KeyColumn>
               </KeyColumns>
