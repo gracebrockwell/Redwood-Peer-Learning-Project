@@ -73,9 +73,6 @@
             <Shape Id="Date SK" Expanded="false">
               <Attributes>
                 <Attribute Id="Date SK" />
-                <Attribute Id="Month Name" />
-                <Attribute Id="Quarter Name" />
-                <Attribute Id="Year Name" />
               </Attributes>
               <Position x="20" y="20" />
             </Shape>
@@ -269,14 +266,29 @@
       <ID>Year</ID>
       <Name>Year</Name>
       <KeyColumns>
-        <KeyColumn dwd:design-time-name="29add550-3eeb-4ff1-a5ee-95d8aacaf23f">
+        <KeyColumn dwd:design-time-name="c8453f59-2b7b-46e3-ab5d-66ddf63969cf">
           <DataType>Integer</DataType>
-          <Source xsi:type="ColumnBinding" dwd:design-time-name="da37bd1f-4191-437c-a863-1befcb774e6e">
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="473d3447-fe2b-4497-bfe3-bc2716f00517">
             <TableID>dbo_DimDate</TableID>
             <ColumnID>Year</ColumnID>
           </Source>
         </KeyColumn>
+        <KeyColumn dwd:design-time-name="b7d65744-dee0-4a03-8325-45afc605320d">
+          <DataType>WChar</DataType>
+          <DataSize>7</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="0a109e59-5b0a-4866-a216-2ed014407b12">
+            <TableID>dbo_DimDate</TableID>
+            <ColumnID>YearName</ColumnID>
+          </Source>
+        </KeyColumn>
       </KeyColumns>
+      <NameColumn dwd:design-time-name="be1cdbf9-01ad-40f2-99ed-8464ed66d883">
+        <DataType>WChar</DataType>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="9a4a5886-8c39-4710-8fad-9d8390b4d2e0">
+          <TableID>dbo_DimDate</TableID>
+          <ColumnID>Year</ColumnID>
+        </Source>
+      </NameColumn>
       <OrderBy>Key</OrderBy>
       <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
       <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
@@ -324,7 +336,7 @@
   <Hierarchies>
     <Hierarchy dwd:design-time-name="2e933612-d1ab-4def-948a-491710ac5706">
       <ID>Hierarchy</ID>
-      <Name>Hierarchy</Name>
+      <Name>Date Drilldown</Name>
       <Levels>
         <Level dwd:design-time-name="a8a82cdb-1661-4c49-ad60-5da389ab4fd7">
           <ID>Year</ID>
