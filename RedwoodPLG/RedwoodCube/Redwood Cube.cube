@@ -8,9 +8,9 @@
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
       <Value>
         <dds xmlns="">
-          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="20" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-4180" scrolltop="8" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="91" x="21140" y="13322" backcolor="16777215" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="20" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-4180" scrolltop="8" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="91" x="18172" y="10234" backcolor="16777215" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
             <font>
-              <ddsxmlobjectstreamwrapper binary="0100000090019e330100065461686f6d61" />
+              <ddsxmlobjectstreamwrapper binary="010000009001683c0100065461686f6d61" />
             </font>
             <mouseicon>
               <ddsxmlobjectstreamwrapper binary="6c74000000000000" />
@@ -223,9 +223,6 @@
         <Attribute dwd:design-time-name="6bffacc9-e243-42c1-b061-f73c0970b1fb">
           <AttributeID>Date SK</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="71c5d4bd-aae3-4045-b9f8-0171600dd164">
-          <AttributeID>Week Of Quarter</AttributeID>
-        </Attribute>
         <Attribute dwd:design-time-name="0f3b77fe-75e5-49f9-af9e-ff13bbdbd2ee">
           <AttributeID>Month</AttributeID>
         </Attribute>
@@ -234,9 +231,6 @@
         </Attribute>
         <Attribute dwd:design-time-name="01bf8e66-a114-429c-876d-a431d8755b96">
           <AttributeID>Year</AttributeID>
-        </Attribute>
-        <Attribute dwd:design-time-name="132188cc-dd65-47ee-bdcc-a739dfe0bc9d">
-          <AttributeID>Season</AttributeID>
         </Attribute>
       </Attributes>
       <Hierarchies>
