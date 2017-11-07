@@ -22,6 +22,7 @@ Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "RedwoodETL", "RedwoodETL\Re
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DM Analysis", "DM Analysis", "{CCC67673-E5BE-4571-BD9A-B116E1618AD1}"
 	ProjectSection(SolutionItems) = preProject
+		Cube Analysis.xlsx = Cube Analysis.xlsx
 		Redwood DM Analysis.xlsx = Redwood DM Analysis.xlsx
 	EndProjectSection
 EndProject

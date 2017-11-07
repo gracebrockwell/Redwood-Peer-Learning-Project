@@ -196,6 +196,9 @@
         <Attribute dwd:design-time-name="1e024193-a083-452e-9c3a-af01558580a9">
           <AttributeID>City</AttributeID>
         </Attribute>
+        <Attribute dwd:design-time-name="2839a6f3-cd2f-415a-9891-febf52e37e72">
+          <AttributeID>Zipcode</AttributeID>
+        </Attribute>
       </Attributes>
       <Hierarchies>
         <Hierarchy dwd:design-time-name="8f0c1558-d3ef-4caa-8293-90ff7fea8333">

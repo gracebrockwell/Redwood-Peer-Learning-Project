@@ -65,6 +65,33 @@
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramZoom</Name>
       <Value>100</Value>
     </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ARDiagramLayout</Name>
+      <Value>
+        <DiagramLayout ZoomPercent="100" ViewPortX="0" ViewPortY="0" xmlns="">
+          <Shapes NodeWidth="168">
+            <Shape Id="Property SK" Expanded="false">
+              <Attributes>
+                <Attribute Id="Property SK" />
+              </Attributes>
+              <Position x="20" y="20" />
+            </Shape>
+            <Shape Id="Zipcode" Expanded="false">
+              <Attributes>
+                <Attribute Id="Zipcode" />
+              </Attributes>
+              <Position x="235" y="20" />
+            </Shape>
+            <Shape Id="City" Expanded="false">
+              <Attributes>
+                <Attribute Id="City" />
+              </Attributes>
+              <Position x="450" y="20" />
+            </Shape>
+          </Shapes>
+        </DiagramLayout>
+      </Value>
+    </Annotation>
   </Annotations>
   <LastProcessed>0001-01-01T07:00:00Z</LastProcessed>
   <State>Unprocessed</State>
@@ -92,9 +119,9 @@
         </KeyColumn>
       </KeyColumns>
       <AttributeRelationships>
-        <AttributeRelationship dwd:design-time-name="f9c46916-6589-4419-adef-35b63abdbb0e">
-          <AttributeID>City</AttributeID>
-          <Name>City</Name>
+        <AttributeRelationship dwd:design-time-name="e4ce0a50-4bad-4a37-9fde-92d42490428d">
+          <AttributeID>Zipcode</AttributeID>
+          <Name>Zipcode</Name>
         </AttributeRelationship>
       </AttributeRelationships>
       <OrderBy>Key</OrderBy>
@@ -117,6 +144,43 @@
       <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
       <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
     </Attribute>
+    <Attribute dwd:design-time-name="e0607bef-b033-4dcb-8bb9-571de5355322">
+      <ID>Zipcode</ID>
+      <Name>Zipcode</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="ba44b55e-e334-4243-8078-0a327b48a758">
+          <DataType>WChar</DataType>
+          <DataSize>20</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="c6ce6558-4ed9-4d8f-8c69-209e650d5b86">
+            <TableID>dbo_DimProperty</TableID>
+            <ColumnID>Zipcode</ColumnID>
+          </Source>
+        </KeyColumn>
+        <KeyColumn dwd:design-time-name="1d07e527-67f9-4e41-ba84-33835b257a44">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="ab1df345-1887-4811-9581-05cdf332f646">
+            <TableID>dbo_DimProperty</TableID>
+            <ColumnID>Property_SK</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="916499c2-f464-4bb1-ad96-b5d517c4c1a4">
+        <DataType>WChar</DataType>
+        <DataSize>20</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="07d07c85-dd01-4575-8328-9b0cbb9d0fec">
+          <TableID>dbo_DimProperty</TableID>
+          <ColumnID>Zipcode</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="e2801fed-7c7c-40ae-937e-7149ff00124d">
+          <AttributeID>City</AttributeID>
+          <Name>City</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
   </Attributes>
   <Hierarchies>
     <Hierarchy dwd:design-time-name="f59b17d3-290f-4b01-8311-f39020a19788">
@@ -127,6 +191,16 @@
           <ID>City</ID>
           <Name>City</Name>
           <SourceAttributeID>City</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="a4950bd0-a324-4f2b-8fbb-f2e4d2e6d952">
+          <ID>Zipcode</ID>
+          <Name>Zipcode</Name>
+          <SourceAttributeID>Zipcode</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="883a6899-62a3-43b1-945b-8a9ffcb8eec1">
+          <ID>Property SK</ID>
+          <Name>Property SK</Name>
+          <SourceAttributeID>Property SK</SourceAttributeID>
         </Level>
       </Levels>
     </Hierarchy>
